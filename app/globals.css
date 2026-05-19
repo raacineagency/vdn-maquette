@@ -3728,10 +3728,10 @@ h1, h2, h3, h4, h5, h6 {
 /* HARMONIZATION & BRANDING OVERRIDES */
 /* ========================================= */
 
-/* Announcement Bar - Light Green Background, Dark Green Text */
+/* Announcement Bar - Soft Purple Background, Dark Text */
 .announcement-bar {
-  background: var(--brand-green) !important;
-  color: var(--brand-dark-green) !important;
+  background: var(--brand-purple) !important;
+  color: var(--dark) !important;
 }
 
 /* Force ALL buttons on the site to have a light green background and dark green text */
@@ -3751,7 +3751,19 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 30px !important;
 }
 
-/* Hover state for ALL buttons: dark green background with white text */
+/* Make product card button circular since it only contains the cart icon */
+.product-card .add-cart-btn {
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  font-size: 15px !important;
+}
+
+/* Hover state for ALL buttons: Deep Slate Purple background with white text */
 .btn-primary:hover,
 .btn-rdv-header:hover,
 .add-cart-btn:hover,
@@ -3760,9 +3772,9 @@ h1, h2, h3, h4, h5, h6 {
 .cart-checkout-btn:hover,
 .cart-promo-btn:hover,
 .dietitian-cta-btn:hover {
-  background: var(--brand-dark-green) !important;
+  background: #41335C !important;
   color: var(--white) !important;
-  border-color: var(--brand-dark-green) !important;
+  border-color: #41335C !important;
 }
 
 /* Secondary Button / WhatsApp Button in dietitian banner: transparent with dark green text/border */
@@ -3776,10 +3788,57 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--brand-dark-green) !important;
 }
 
-/* Cart Badge - Dark Green */
+/* Cart Badge - Soft Pink with Dark Text */
 .cart-badge {
-  background: var(--brand-dark-green) !important;
-  color: var(--white) !important;
+  background: var(--brand-pink) !important;
+  color: var(--dark) !important;
+}
+
+/* Hero Section: Differentiate colors away from green */
+.hero h2 em {
+  color: var(--brand-blue) !important;
+}
+.hero-trust-badge i {
+  color: var(--brand-purple) !important;
+}
+.hero-feature i {
+  color: var(--brand-pink) !important;
+}
+.hero-desc strong {
+  color: var(--brand-purple) !important;
+}
+
+/* Trust Bar Section: Alternating non-green colors for icons */
+.trust-item:nth-child(3n+1) .trust-icon {
+  color: var(--brand-purple) !important;
+}
+.trust-item:nth-child(3n+2) .trust-icon {
+  color: var(--brand-blue) !important;
+}
+.trust-item:nth-child(3n+3) .trust-icon {
+  color: var(--brand-pink) !important;
+}
+
+/* Nos Catégories Section: Alternating hover border colors */
+.prod-category-card:nth-child(3n+1):hover {
+  border-color: var(--brand-pink) !important;
+}
+.prod-category-card:nth-child(3n+2):hover {
+  border-color: var(--brand-purple) !important;
+}
+.prod-category-card:nth-child(3n+3):hover {
+  border-color: var(--brand-blue) !important;
+}
+
+/* Témoignages Section: Alternating top border colors for cards */
+.testimonial-card:nth-child(3n+1) {
+  border-top: 4px solid var(--brand-pink) !important;
+}
+.testimonial-card:nth-child(3n+2) {
+  border-top: 4px solid var(--brand-purple) !important;
+}
+.testimonial-card:nth-child(3n+3) {
+  border-top: 4px solid var(--brand-blue) !important;
 }
 
 /* Active Filter Buttons - Dark Green background with white text */
@@ -3844,6 +3903,29 @@ h1, h2, h3, h4, h5, h6 {
 .action-icon-btn:hover {
   background: var(--brand-green) !important;
   color: var(--brand-dark-green) !important;
+}
+
+/* Category Sidebar active category item */
+.category-item.active {
+  border-left: 3px solid var(--brand-purple) !important;
+  color: var(--brand-purple) !important;
+}
+
+/* Checkboxes Checked State */
+.filter-checkbox:checked::after {
+  background: var(--brand-blue) !important;
+  border-color: var(--brand-blue) !important;
+}
+
+/* Product Tabs active border */
+.product-tab-header.active {
+  border-bottom: 2px solid var(--brand-purple) !important;
+  color: var(--brand-purple) !important;
+}
+
+/* Newsletter section - Soft Blue top border */
+.newsletter-section {
+  border-top: 4px solid var(--brand-blue) !important;
 }
 
 /* Related Products hover border and brand color differentiation */

@@ -1255,7 +1255,7 @@ export default function Home() {
                             className="add-cart-btn"
                             onClick={(e) => { e.stopPropagation(); addToCart(prod.id); }}
                           >
-                            Ajouter
+                            <i className="fa-solid fa-basket-shopping"></i>
                           </button>
                         </div>
                       </div>
@@ -1344,7 +1344,7 @@ export default function Home() {
                             className="add-cart-btn"
                             onClick={(e) => { e.stopPropagation(); addToCart(prod.id); }}
                           >
-                            Ajouter
+                            <i className="fa-solid fa-basket-shopping"></i>
                           </button>
                         </div>
                       </div>
