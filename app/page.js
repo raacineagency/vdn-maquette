@@ -445,6 +445,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeMobileMenu, setActiveMobileMenu] = useState(null);
   const [footerDropdownOpen, setFooterDropdownOpen] = useState(false);
   const [expandedFaq, setExpandedFaq] = useState(null);
 
@@ -850,8 +851,8 @@ export default function Home() {
           <div className="navbar-bottom-container">
             <ul className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
               {/* 1. OBJECTIFS (Mega Dropdown) */}
-              <li className="nav-item">
-                <span className="nav-link">Objectifs <i className="fa-solid fa-chevron-down"></i></span>
+              <li className={`nav-item ${activeMobileMenu === 'objectifs' ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'objectifs' ? null : 'objectifs')}>Objectifs <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-4">
                   <div className="dropdown-col">
                     <h4>Perte de poids</h4>
@@ -908,8 +909,8 @@ export default function Home() {
               </li>
 
               {/* 2. NUTRITION SPORTIVE */}
-              <li className="nav-item">
-                <span className="nav-link">Nutrition Sportive <i className="fa-solid fa-chevron-down"></i></span>
+              <li className={`nav-item ${activeMobileMenu === 'sport' ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'sport' ? null : 'sport')}>Nutrition Sportive <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-3">
                   <div className="dropdown-col">
                     <h4>Protéines</h4>
@@ -939,8 +940,8 @@ export default function Home() {
               </li>
 
               {/* 3. MINCEUR */}
-              <li className="nav-item">
-                <span className="nav-link">Minceur <i className="fa-solid fa-chevron-down"></i></span>
+              <li className={`nav-item ${activeMobileMenu === 'minceur' ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'minceur' ? null : 'minceur')}>Minceur <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-3">
                   <div className="dropdown-col">
                     <h4>Brûler les graisses</h4>
@@ -969,8 +970,8 @@ export default function Home() {
               </li>
 
               {/* 4. SANTÉ & BIEN-ÊTRE */}
-              <li className="nav-item">
-                <span className="nav-link">Santé & Bien-être <i className="fa-solid fa-chevron-down"></i></span>
+              <li className={`nav-item ${activeMobileMenu === 'sante' ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'sante' ? null : 'sante')}>Santé & Bien-être <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-3">
                   <div className="dropdown-col">
                     <h4>Micro-Nutrition</h4>
@@ -999,8 +1000,8 @@ export default function Home() {
               </li>
 
               {/* 5. ALIMENTATION SAINE */}
-              <li className="nav-item">
-                <span className="nav-link">Alimentation Saine <i className="fa-solid fa-chevron-down"></i></span>
+              <li className={`nav-item ${activeMobileMenu === 'alimentation' ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'alimentation' ? null : 'alimentation')}>Alimentation Saine <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-3">
                   <div className="dropdown-col">
                     <h4>Snacks & En-cas</h4>
@@ -1028,8 +1029,8 @@ export default function Home() {
               </li>
 
               {/* 6. PROGRAMMES & PACKS */}
-              <li className="nav-item">
-                <span className="nav-link">Programmes & Packs <i className="fa-solid fa-chevron-down"></i></span>
+              <li className={`nav-item ${activeMobileMenu === 'programmes' ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'programmes' ? null : 'programmes')}>Programmes & Packs <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel simple-dropdown">
                   <ul className="dropdown-links">
                     <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}><i className="fa-solid fa-fire" style={{ marginRight: '6px' }}></i> Pack Minceur Complet</a></li>
@@ -1149,7 +1150,7 @@ export default function Home() {
           </section>
 
           {/* NOS CATÉGORIES GRID */}
-          <section className="section" id="categories">
+          <section className="section bg-pastel-gradient" id="categories">
             <div className="container">
               <div className="section-title-wrap">
                 <h2>Nos Catégories</h2>
@@ -1361,9 +1362,9 @@ export default function Home() {
                 {/* Left Column: Info & Actions */}
                 <div className="dietitian-info" style={{ padding: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80" alt="Sarah Vidal" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '50%', border: '3px solid var(--rose)' }} />
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80" alt="Sarah Vidal" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '50%', border: '3px solid var(--brand-green)' }} />
                     <div>
-                      <h4 style={{ fontSize: '18px', fontWeight: '700', color: 'var(--rose)' }}>Sarah Vidal</h4>
+                      <h4 style={{ fontSize: '18px', fontWeight: '700', color: 'var(--brand-green)' }}>Sarah Vidal</h4>
                       <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>Diététicienne-Nutritionniste D.E.</p>
                       <div style={{ color: 'var(--peach)', fontSize: '11px', marginTop: '4px' }}>★★★★★ <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px', marginLeft: '4px' }}>4.9 (120+ avis)</span></div>
                     </div>
@@ -1373,7 +1374,7 @@ export default function Home() {
                   <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.7', marginBottom: '30px' }}>Prenez rendez-vous pour un accompagnement nutritionnel sur-mesure. Rééquilibrage alimentaire, perte de poids durable ou préparation sportive, nous définissons ensemble la méthode idéale pour votre réussite.</p>
                   
                   <div style={{ display: 'flex', gap: '16px', justifyContent: 'flex-start', flexWrap: 'wrap', marginTop: '10px' }}>
-                    <a href="tel:0689205302" className="dietitian-cta-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'var(--rose)', color: 'var(--dark)', padding: '14px 28px', borderRadius: '30px', textDecoration: 'none', fontWeight: '700' }}><i className="fa-solid fa-phone"></i> Appeler le 06 89 20 53 02</a>
+                    <a href="tel:0689205302" className="dietitian-cta-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'var(--brand-green)', color: 'var(--dark)', padding: '14px 28px', borderRadius: '30px', textDecoration: 'none', fontWeight: '700' }}><i className="fa-solid fa-phone"></i> Appeler le 06 89 20 53 02</a>
                     <a href="https://wa.me/33689205302" className="dietitian-cta-btn secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'var(--white)', padding: '14px 28px', borderRadius: '30px', textDecoration: 'none', fontWeight: '700' }}><i className="fa-brands fa-whatsapp"></i> Écrire sur WhatsApp</a>
                   </div>
                 </div>
@@ -1384,26 +1385,26 @@ export default function Home() {
                   
                   <div className="dietitian-features" style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginBottom: '32px' }}>
                     <div className="dietitian-feature" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--rose)', fontSize: '18px', marginTop: '2px' }}></i>
+                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--brand-pink)', fontSize: '18px', marginTop: '2px' }}></i>
                       <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255,255,255,0.9)' }}><strong>100% sur-mesure</strong> : Vos menus sont élaborés selon vos goûts, vos contraintes et vos objectifs.</span>
                     </div>
                     <div className="dietitian-feature" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--rose)', fontSize: '18px', marginTop: '2px' }}></i>
+                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--brand-purple)', fontSize: '18px', marginTop: '2px' }}></i>
                       <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255,255,255,0.9)' }}><strong>Bilan complet sous 24h</strong> : Réception de votre plan alimentaire et de vos fiches conseils en PDF.</span>
                     </div>
                     <div className="dietitian-feature" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--rose)', fontSize: '18px', marginTop: '2px' }}></i>
+                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--brand-blue)', fontSize: '18px', marginTop: '2px' }}></i>
                       <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255,255,255,0.9)' }}><strong>Remboursement mutuelle</strong> : Facture fournie pour une prise en charge par votre complémentaire santé.</span>
                     </div>
                     <div className="dietitian-feature" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--rose)', fontSize: '18px', marginTop: '2px' }}></i>
+                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--brand-green)', fontSize: '18px', marginTop: '2px' }}></i>
                       <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255,255,255,0.9)' }}><strong>Suivi & motivation</strong> : Échanges réguliers pour ajuster le programme et maintenir vos progrès.</span>
                     </div>
                   </div>
 
                   <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', textAlign: 'center' }}>
-                    <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', marginBottom: '6px' }}><i className="fa-solid fa-info-circle" style={{ color: 'var(--rose)' }}></i> Première consultation remboursée par de nombreuses mutuelles</p>
-                    <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--peach)', letterSpacing: '0.5px' }}>Cabinet Béziers & Consultation à distance</span>
+                    <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', marginBottom: '6px' }}><i className="fa-solid fa-info-circle" style={{ color: 'var(--brand-pink)' }}></i> Première consultation remboursée par de nombreuses mutuelles</p>
+                    <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--brand-purple)', letterSpacing: '0.5px' }}>Cabinet Béziers & Consultation à distance</span>
                   </div>
                 </div>
               </div>
@@ -1411,10 +1412,10 @@ export default function Home() {
           </section>
 
           {/* TESTIMONIALS SECTION */}
-          <section className="section" id="testimonials" style={{ paddingTop: '80px', paddingBottom: '80px', overflow: 'hidden', background: 'var(--bg-cream)' }}>
+          <section className="section bg-pastel-gradient" id="testimonials" style={{ paddingTop: '80px', paddingBottom: '80px', overflow: 'hidden' }}>
             <div className="container">
               <div className="section-title-wrap" style={{ textAlign: 'center', marginBottom: '50px' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--rose-light)', color: 'var(--rose)', padding: '8px 16px', borderRadius: '30px', fontSize: '13px', fontWeight: '700', marginBottom: '16px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--sky-light)', color: 'var(--brand-blue)', padding: '8px 16px', borderRadius: '30px', fontSize: '13px', fontWeight: '700', marginBottom: '16px' }}>
                   <i className="fa-solid fa-star"></i> Évalué 4.9/5 par nos clients
                 </div>
                 <h2>Avis & Témoignages</h2>
@@ -1961,7 +1962,7 @@ export default function Home() {
                 {detailActiveTab === 'usage' && (
                   <div className="product-tab-panel active">
                     <p>{prod.usage}</p>
-                    <p style={{ marginTop: '15px', fontWeight: 600, color: 'var(--rose)' }}><i className="fa-solid fa-triangle-exclamation"></i> Précautions d&apos;emploi :</p>
+                    <p style={{ marginTop: '15px', fontWeight: 600, color: 'var(--brand-pink)' }}><i className="fa-solid fa-triangle-exclamation"></i> Précautions d&apos;emploi :</p>
                     <p>Ne pas dépasser la dose journalière recommandée. Les compléments alimentaires doivent être utilisés dans le cadre d&apos;un mode de vie sain et ne pas remplacer un régime alimentaire varié et équilibré. Tenir hors de portée des enfants.</p>
                   </div>
                 )}
@@ -2074,7 +2075,7 @@ export default function Home() {
                 <i className="fa-solid fa-basket-shopping"></i>
                 <h2>Votre panier est vide</h2>
                 <p style={{ color: 'var(--text-mid)', margin: '10px 0 30px 0' }}>Découvrez nos compléments alimentaires et commencez vos achats.</p>
-                <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="dietitian-cta-btn" style={{ background: 'var(--rose)', color: 'var(--dark)', padding: '12px 30px', borderRadius: '30px', textDecoration: 'none', fontWeight: 700, display: 'inline-block' }}>Retour à la boutique</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="dietitian-cta-btn" style={{ background: 'var(--brand-green)', color: 'var(--dark)', padding: '12px 30px', borderRadius: '30px', textDecoration: 'none', fontWeight: 700, display: 'inline-block' }}>Retour à la boutique</a>
               </div>
             ) : (
               <div className="cart-page-grid">
@@ -2153,7 +2154,7 @@ export default function Home() {
                   </div>
 
                   {promoDiscount > 0 && (
-                    <div className="cart-summary-row" style={{ color: 'var(--mint)', fontWeight: '600' }}>
+                    <div className="cart-summary-row" style={{ color: 'var(--brand-green)', fontWeight: '600' }}>
                       <span>Code promo ({promoCode.toUpperCase()})</span>
                       <span>-{promoDiscountAmount.toFixed(2).replace('.', ',')} €</span>
                     </div>
@@ -2177,7 +2178,7 @@ export default function Home() {
                       <button className="cart-promo-btn" onClick={handleApplyPromo}>Appliquer</button>
                     </div>
                     {promoMessage && (
-                      <div id="promo-message" style={{ fontSize: '12px', marginTop: '6px', fontWeight: 600, color: promoMessage.includes('appliqué') ? 'var(--mint)' : 'var(--rose)' }}>
+                      <div id="promo-message" style={{ fontSize: '12px', marginTop: '6px', fontWeight: 600, color: promoMessage.includes('appliqué') ? 'var(--brand-green)' : 'var(--brand-pink)' }}>
                         {promoMessage}
                       </div>
                     )}
@@ -2186,7 +2187,7 @@ export default function Home() {
                   <button className="cart-checkout-btn" onClick={handleCheckout}><i className="fa-solid fa-credit-card"></i> Passer au paiement</button>
                   
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', color: 'var(--text-mid)', fontSize: '12px', marginTop: '10px' }}>
-                    <i className="fa-solid fa-lock" style={{ color: 'var(--mint)' }}></i> Paiement 100% sécurisé SSL
+                    <i className="fa-solid fa-lock" style={{ color: 'var(--brand-green)' }}></i> Paiement 100% sécurisé SSL
                   </div>
                 </div>
               </div>
@@ -2228,7 +2229,7 @@ export default function Home() {
                 <div className="footer-dropdown-menu" style={{ display: 'block', position: 'absolute', bottom: 'calc(100% + 10px)', left: 0, width: '100%', minWidth: '280px', background: '#161514', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', zIndex: 999, maxHeight: '320px', overflowY: 'auto', padding: '20px' }}>
                   {/* Nutrition Sportive */}
                   <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--rose)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-dumbbell"></i> Nutrition Sportive</div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--brand-purple)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-dumbbell"></i> Nutrition Sportive</div>
                     <ul style={{ listStyle: 'none', paddingLeft: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Performance'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Whey & Isolat</a></li>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Performance'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Acides Aminés (BCAA, EAA)</a></li>
@@ -2238,7 +2239,7 @@ export default function Home() {
                   </div>
                   {/* Minceur */}
                   <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--rose)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-fire"></i> Minceur</div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--brand-blue)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-fire"></i> Minceur</div>
                     <ul style={{ listStyle: 'none', paddingLeft: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Minceur'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Brûleurs de Graisse</a></li>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Minceur'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Coupe-Faim & Draineurs</a></li>
@@ -2246,7 +2247,7 @@ export default function Home() {
                   </div>
                   {/* Santé & Bien-être */}
                   <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--rose)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-heart-pulse"></i> Santé & Bien-être</div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--brand-green)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-heart-pulse"></i> Santé & Bien-être</div>
                     <ul style={{ listStyle: 'none', paddingLeft: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Digestion'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Ventre Plat & Probiotiques</a></li>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Détente'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Sommeil & Adaptogènes</a></li>
@@ -2308,7 +2309,7 @@ export default function Home() {
               className="shipping-progress-fill"
               style={{
                 width: `${Math.min(100, (cartSubtotal / shippingThreshold) * 100)}%`,
-                backgroundColor: cartSubtotal >= shippingThreshold ? 'var(--mint)' : 'var(--rose)'
+                backgroundColor: cartSubtotal >= shippingThreshold ? 'var(--brand-green)' : 'var(--brand-purple)'
               }}
             ></div>
           </div>

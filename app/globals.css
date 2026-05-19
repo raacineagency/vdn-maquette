@@ -1,18 +1,26 @@
 :root {
-  --rose: #F3A2AC;
-  --peach: #FCD1A2;
-  --lemon: #F7F2AE;
-  --mint: #BEDBAD;
-  --sky: #9DC0E7;
-  --lavender: #B7ACD5;
-  --pink: #EFC4DD;
+  /* Harmonized Main Palette */
+  --brand-pink: #EFC4DD;
+  --brand-purple: #B7ACD5;
+  --brand-blue: #9DC0E7;
+  --brand-green: #BEDBAD;
 
-  --rose-light: #FBDCE0;
-  --peach-light: #FEF0DC;
-  --mint-light: #E8F2E0;
-  --sky-light: #D8E8F6;
-  --lavender-light: #E4DFF0;
-  --pink-light: #F9E6F0;
+  /* Legacy variables mapped to the new harmonious palette */
+  --rose: var(--brand-pink);
+  --peach: var(--brand-purple);
+  --lemon: var(--brand-blue);
+  --mint: var(--brand-green);
+  --sky: var(--brand-blue);
+  --lavender: var(--brand-purple);
+  --pink: var(--brand-pink);
+
+  /* Light transparent backgrounds using color-mix for perfect harmony */
+  --rose-light: color-mix(in srgb, var(--brand-pink) 25%, transparent);
+  --peach-light: color-mix(in srgb, var(--brand-purple) 25%, transparent);
+  --mint-light: color-mix(in srgb, var(--brand-green) 25%, transparent);
+  --sky-light: color-mix(in srgb, var(--brand-blue) 25%, transparent);
+  --lavender-light: color-mix(in srgb, var(--brand-purple) 25%, transparent);
+  --pink-light: color-mix(in srgb, var(--brand-pink) 25%, transparent);
 
   --dark: #2A2A3C;
   --dark-soft: #3D3D52;
@@ -3713,3 +3721,123 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 15px;
   }
 }
+
+/* ========================================= */
+/* HARMONIZATION OVERRIDES (Alternating Colors) */
+/* ========================================= */
+
+/* Announcement Bar - Purple */
+.announcement-bar {
+  background: var(--brand-purple) !important;
+}
+
+/* Primary Buttons (Global) - Blue */
+.btn-primary {
+  background: var(--brand-blue) !important;
+}
+.btn-primary:hover {
+  background: var(--brand-blue) !important;
+  opacity: 0.9;
+}
+
+/* Cart Badge - Purple */
+.cart-badge {
+  background: var(--brand-purple) !important;
+}
+
+/* Hero Trust Badges - Green */
+.hero-trust-badge i {
+  color: var(--brand-green) !important;
+}
+
+/* Product Cards Quick Add Button - Blue */
+.category-product-card .quick-add-btn {
+  background: var(--brand-blue) !important;
+}
+.product-card .add-cart-btn {
+  background: var(--brand-blue) !important;
+}
+
+/* Active Filter Buttons - Purple */
+.filter-btn.active {
+  background: var(--brand-purple) !important;
+  border-color: var(--brand-purple) !important;
+}
+
+/* Newsletter section - Blue accents */
+.newsletter-section {
+  border-top: 4px solid var(--brand-blue);
+}
+
+/* Footer Social Icons - Blue hover */
+.social-icon:hover {
+  background: var(--brand-blue) !important;
+  border-color: var(--brand-blue) !important;
+}
+
+
+/* ========================================= */
+/* GRADIENT BACKGROUND (Soft Pastel) */
+/* ========================================= */
+.bg-pastel-gradient {
+  background: 
+    radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--brand-pink) 25%, transparent) 0%, transparent 45%),
+    radial-gradient(circle at 15% 90%, color-mix(in srgb, var(--brand-green) 25%, transparent) 0%, transparent 55%),
+    var(--bg-cream) !important;
+}
+
+
+/* ========================================= */
+/* MOBILE HORIZONTAL SWIPER OVERRIDES */
+/* ========================================= */
+@media (max-width: 768px) {
+  /* Transform vertical grids into horizontal swipeable sliders on mobile */
+  .products-grid, 
+  .product-categories-grid, 
+  .testimonials-grid,
+  .category-product-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    padding-bottom: 24px !important;
+    gap: 16px !important;
+    -webkit-overflow-scrolling: touch;
+    
+    /* Bleed out of the container so they scroll to the edge of the screen */
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .products-grid::-webkit-scrollbar,
+  .product-categories-grid::-webkit-scrollbar,
+  .testimonials-grid::-webkit-scrollbar,
+  .category-product-grid::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .products-grid > *, 
+  .testimonials-grid > *,
+  .category-product-grid > * {
+    flex: 0 0 82% !important; /* Take up 82% of screen width so next card peeks */
+    scroll-snap-align: center !important;
+    min-width: 280px;
+  }
+  
+  /* Product Categories are smaller, show 2 at a time */
+  .product-categories-grid > * {
+    flex: 0 0 40% !important;
+    scroll-snap-align: start !important;
+    min-width: 140px;
+  }
+  
+  /* Prevent images inside from squishing */
+  .product-card, .prod-category-card, .testimonial-card {
+    height: auto;
+  }
+}
+
