@@ -3766,9 +3766,6 @@ h1, h2, h3, h4, h5, h6 {
 /* Hover state for ALL buttons: Deep Slate Purple background with white text */
 .btn-primary:hover,
 .btn-rdv-header:hover,
-.add-cart-btn:hover,
-.cat-prod-quick-add:hover,
-.product-detail-add-btn:hover,
 .cart-checkout-btn:hover,
 .cart-promo-btn:hover,
 .dietitian-cta-btn:hover {
@@ -3776,6 +3773,16 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--white) !important;
   border-color: #41335C !important;
 }
+
+/* Specific hover state for add-to-cart (basket) buttons: Pink background with dark green icon */
+.product-card .add-cart-btn:hover,
+.cat-prod-quick-add:hover,
+.product-detail-add-btn:hover {
+  background: var(--brand-pink) !important;
+  border-color: var(--brand-pink) !important;
+  color: var(--brand-dark-green) !important;
+}
+
 
 /* Secondary Button / WhatsApp Button in dietitian banner: transparent with dark green text/border */
 .dietitian-cta-btn.secondary {

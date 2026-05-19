@@ -1795,14 +1795,16 @@ export default function Home() {
                             <div className="cat-prod-brand">{p.brand}</div>
                             <div className="cat-prod-title">{p.title}</div>
                             <div className="cat-prod-rating">{stars} <span>({p.reviewsCount} avis)</span></div>
-                            <div className="cat-prod-price-row">
-                              <span className="cat-prod-price">{p.price.toFixed(2).replace('.', ',')} €</span>
-                              {oldPriceHtml}
+                            <div className="cat-prod-price-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <span className="cat-prod-price">{p.price.toFixed(2).replace('.', ',')} €</span>
+                                {oldPriceHtml}
+                              </div>
+                              <button className="add-cart-btn" onClick={(e) => { e.stopPropagation(); addToCart(p.id); }} style={{ marginLeft: 'auto' }}>
+                                <i className="fa-solid fa-basket-shopping"></i>
+                              </button>
                             </div>
                           </div>
-                          <button className="cat-prod-quick-add" onClick={(e) => { e.stopPropagation(); addToCart(p.id); }}>
-                            <i className="fa-solid fa-basket-shopping"></i> Ajout rapide
-                          </button>
                         </div>
                       );
                     })
