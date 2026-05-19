@@ -22,7 +22,7 @@ const PRODUCTS_DATABASE = {
     reviewsCount: 142,
     tag: "Performance",
     flavors: ["Chocolat Belge", "Vanille Intense", "Fraise Sauvage"],
-    sizes: ["908 g (30 shakers)", "2000 g (66 shakers)"],
+    sizes: ["300 g", "900 g", "2 kg", "4 kg"],
     benefits: [
       "Isolat de whey pur à 100% avec assimilation ultra-rapide",
       "Zéro glucide, zéro graisse et sans lactose ajouté",
@@ -432,6 +432,65 @@ const filterCategoryMap = {
   'packs': 'Conseil Inclus'
 };
 
+const USAGE_DETAILS = {
+  "1": {
+    dosage: "25g (1 dosette)",
+    timing: "Post-entraînement ou collation",
+    preparation: "Mélanger avec 300-400ml d'eau froide ou de lait végétal",
+    frequency: "1 à 2 fois par jour",
+    proTip: "Laisser reposer 1 minute après avoir mélangé pour éliminer la mousse naturelle de l'isolat.",
+    schedule: { morning: true, midday: false, evening: true }
+  },
+  "2": {
+    dosage: "3g (1 cuillère doseuse)",
+    timing: "Après l'entraînement ou au repas",
+    preparation: "Diluer dans un jus de fruits ou de l'eau",
+    frequency: "1 fois par jour",
+    proTip: "Le jus de fruit (glucides) favorise le transport et l'assimilation de la créatine par les cellules musculaires.",
+    schedule: { morning: true, midday: false, evening: true }
+  },
+  "3": {
+    dosage: "4 gélules par jour",
+    timing: "Au cours des repas (Matin & Soir)",
+    preparation: "Prendre avec un grand verre d'eau",
+    frequency: "2 gélules le matin, 2 gélules le soir",
+    proTip: "Prendre les gélules Jour au petit-déjeuner et Nuit au dîner pour respecter les phases de thermogenèse et de repos.",
+    schedule: { morning: true, midday: false, evening: true }
+  },
+  "4": {
+    dosage: "1 à 2 gélules",
+    timing: "De préférence le soir au dîner",
+    preparation: "Prendre avec un grand verre d'eau",
+    frequency: "1 fois par jour",
+    proTip: "L'ashwagandha régule le cortisol (hormone du stress). Une prise en soirée favorise un endormissement de qualité.",
+    schedule: { morning: false, midday: false, evening: true }
+  },
+  "5": {
+    dosage: "10g (1 dosette)",
+    timing: "Au choix (le matin ou au coucher)",
+    preparation: "Dans un verre d'eau, un smoothie ou du café/thé",
+    frequency: "1 fois par jour",
+    proTip: "Le collagène se dissout parfaitement dans les boissons chaudes sans perdre ses propriétés structurelles.",
+    schedule: { morning: true, midday: false, evening: true }
+  },
+  "6": {
+    dosage: "Selon vos besoins",
+    timing: "En collation ou au petit-déjeuner",
+    preparation: "Sur des pancakes, des tartines ou dans vos recettes",
+    frequency: "Selon vos envies gourmandes",
+    proTip: "Une excellente alternative saine pour combler les envies de sucre tout en apportant 21g de protéines.",
+    schedule: { morning: true, midday: false, evening: true }
+  },
+  "7": {
+    dosage: "1 sachet ou 2g en vrac",
+    timing: "30 minutes avant le coucher",
+    preparation: "Laisser infuser dans de l'eau à 90°C pendant 5 à 7 min",
+    frequency: "1 tasse en soirée",
+    proTip: "Couvrez votre tasse pendant l'infusion pour conserver toutes les huiles essentielles et principes actifs des plantes.",
+    schedule: { morning: false, midday: false, evening: true }
+  }
+};
+
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [cart, setCart] = useState([]);
@@ -606,6 +665,17 @@ export default function Home() {
   // Cart operations
   const getCartItemKey = (id, flavor, size) => `${id}_${flavor || ''}_${size || ''}`;
 
+  const getPriceForSize = (basePrice, sizeStr, sizesList) => {
+    if (!sizesList || sizesList.length <= 1) return basePrice;
+    const idx = sizesList.indexOf(sizeStr);
+    if (idx <= 0) return basePrice;
+    
+    if (idx === 1) return basePrice * 2.2;
+    if (idx === 2) return basePrice * 4.2;
+    if (idx === 3) return basePrice * 7.5;
+    return basePrice;
+  };
+
   const addToCart = (id, flavor = '', size = '') => {
     const prod = PRODUCTS_DATABASE[id];
     if (!prod) return;
@@ -613,6 +683,7 @@ export default function Home() {
     const selectedFlavor = flavor || (prod.flavors && prod.flavors.length > 0 ? prod.flavors[0] : '');
     const selectedSize = size || (prod.sizes && prod.sizes.length > 0 ? prod.sizes[0] : '');
     const key = getCartItemKey(id, selectedFlavor, selectedSize);
+    const finalPrice = getPriceForSize(prod.price, selectedSize, prod.sizes);
 
     setCart(prevCart => {
       const idx = prevCart.findIndex(item => item.key === key);
@@ -626,7 +697,7 @@ export default function Home() {
           key,
           title: prod.title,
           brand: prod.brand,
-          price: prod.price,
+          price: finalPrice,
           img: prod.img,
           quantity: 1,
           flavor: selectedFlavor,
@@ -664,7 +735,13 @@ export default function Home() {
 
       const item = { ...prevCart[idx] };
       if (type === 'flavor') item.flavor = newValue;
-      if (type === 'size') item.size = newValue;
+      if (type === 'size') {
+        item.size = newValue;
+        const prod = PRODUCTS_DATABASE[item.id];
+        if (prod) {
+          item.price = getPriceForSize(prod.price, newValue, prod.sizes);
+        }
+      }
 
       const newKey = getCartItemKey(item.id, item.flavor, item.size);
       item.key = newKey;
@@ -811,6 +888,11 @@ export default function Home() {
         {/* Top row: Logo, Search, Actions */}
         <div className="navbar-top">
           <div className="navbar-top-container">
+            {/* LEFT: Mobile Toggle (Visible on mobile only) */}
+            <button className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
+              <i className="fa-solid fa-bars"></i>
+            </button>
+
             <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="logo">
               <img src="/logo%20boutique%202.png" alt="Vidal Nutrition" style={{ height: '42px', width: 'auto', display: 'block' }} />
             </a>
@@ -838,9 +920,6 @@ export default function Home() {
               <button className="nav-btn" onClick={() => setCartOpen(true)} aria-label="Open cart">
                 <i className="fa-solid fa-bag-shopping"></i>
                 <span className="cart-badge">{cartTotalItemsCount}</span>
-              </button>
-              <button className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
-                <i className="fa-solid fa-bars"></i>
               </button>
             </div>
           </div>
@@ -1819,7 +1898,9 @@ export default function Home() {
       {activePage === 'product' && currentProductId && PRODUCTS_DATABASE[currentProductId] && (() => {
         const prod = PRODUCTS_DATABASE[currentProductId];
         const stars = '★'.repeat(Math.round(prod.rating));
-        const oldPriceHtml = prod.oldPrice ? <span className="product-detail-old-price">{prod.oldPrice.toFixed(2).replace('.', ',')} €</span> : null;
+        const displayedPrice = getPriceForSize(prod.price, detailSelectedSize, prod.sizes);
+        const displayedOldPrice = prod.oldPrice ? getPriceForSize(prod.oldPrice, detailSelectedSize, prod.sizes) : null;
+        const oldPriceHtml = displayedOldPrice ? <span className="product-detail-old-price">{displayedOldPrice.toFixed(2).replace('.', ',')} €</span> : null;
         const associated = getAssociatedProducts(currentProductId);
 
         return (
@@ -1863,43 +1944,73 @@ export default function Home() {
                   </div>
                   
                   <div className="product-detail-price-box">
-                    <span className="product-detail-price">{prod.price.toFixed(2).replace('.', ',')} €</span>
+                    <span className="product-detail-price">{displayedPrice.toFixed(2).replace('.', ',')} €</span>
                     {oldPriceHtml}
                   </div>
                   
                   <p className="product-detail-short-desc">{prod.shortDesc}</p>
                   
+                  {/* Size variations selector */}
+                  {prod.sizes && prod.sizes.length > 0 && (
+                    <div className="product-variation-group">
+                      <span className="product-variation-label">Format</span>
+                      <div className="product-sizes-container">
+                        {prod.sizes.map((s, idx) => {
+                          const cleanSize = s.split('(')[0].trim();
+                          const isActive = detailSelectedSize === s;
+                          
+                          // Dynamic discount tags based on sizes
+                          let discount = null;
+                          if (prod.id === "1") {
+                            if (idx === 1) discount = "-28%";
+                            if (idx === 2) discount = "-44%";
+                            if (idx === 3) discount = "-51%";
+                          } else {
+                            if (idx === 1) discount = "-15%";
+                            if (idx === 2) discount = "-25%";
+                            if (idx === 3) discount = "-35%";
+                          }
+                          
+                          return (
+                            <button
+                              key={s}
+                              type="button"
+                              className={`product-size-card ${isActive ? 'active' : ''}`}
+                              onClick={() => setDetailSelectedSize(s)}
+                            >
+                              {cleanSize}
+                              {discount && <span className="product-size-discount">{discount}</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Flavor variations selector */}
                   {prod.flavors && prod.flavors.length > 0 && (
-                    <div className="product-detail-variations">
-                      <label className="product-detail-variation-label">Saveur :</label>
-                      <div className="cart-item-select-wrapper" style={{ maxWidth: '280px' }}>
+                    <div className="product-variation-group" style={{ marginTop: '20px' }}>
+                      <span className="product-variation-label">Goût</span>
+                      <div className="product-flavor-select-wrapper" style={{ maxWidth: '400px' }}>
                         <select
-                          className="cart-item-select"
+                          className="product-flavor-select"
                           value={detailSelectedFlavor}
                           onChange={(e) => setDetailSelectedFlavor(e.target.value)}
                         >
-                          {prod.flavors.map(f => <option value={f} key={f}>{f}</option>)}
+                          {prod.flavors.map(f => (
+                            <option value={f} key={f}>
+                              {f}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
                   )}
 
-                  {/* Size variations selector */}
-                  {prod.sizes && prod.sizes.length > 0 && (
-                    <div className="product-detail-variations" style={{ marginTop: '16px' }}>
-                      <label className="product-detail-variation-label">Format :</label>
-                      <div className="cart-item-select-wrapper" style={{ maxWidth: '280px' }}>
-                        <select
-                          className="cart-item-select"
-                          value={detailSelectedSize}
-                          onChange={(e) => setDetailSelectedSize(e.target.value)}
-                        >
-                          {prod.sizes.map(s => <option value={s} key={s}>{s}</option>)}
-                        </select>
-                      </div>
-                    </div>
-                  )}
+                  {/* Stock Status Indicator */}
+                  <div className="product-stock-status">
+                    <span className="stock-dot"></span> En stock
+                  </div>
 
                   {/* Benefits checkmark list */}
                   {prod.benefits && (
@@ -1961,13 +2072,88 @@ export default function Home() {
                   </div>
                 )}
                 
-                {detailActiveTab === 'usage' && (
-                  <div className="product-tab-panel active">
-                    <p>{prod.usage}</p>
-                    <p style={{ marginTop: '15px', fontWeight: 600, color: 'var(--brand-pink)' }}><i className="fa-solid fa-triangle-exclamation"></i> Précautions d&apos;emploi :</p>
-                    <p>Ne pas dépasser la dose journalière recommandée. Les compléments alimentaires doivent être utilisés dans le cadre d&apos;un mode de vie sain et ne pas remplacer un régime alimentaire varié et équilibré. Tenir hors de portée des enfants.</p>
-                  </div>
-                )}
+                {detailActiveTab === 'usage' && (() => {
+                  const details = USAGE_DETAILS[prod.id] || {
+                    dosage: prod.usage,
+                    timing: "Au cours de la journée",
+                    preparation: "Prendre avec de l'eau",
+                    frequency: "1 fois par jour",
+                    proTip: "Respectez les doses quotidiennes recommandées.",
+                    schedule: { morning: true, midday: true, evening: true }
+                  };
+                  return (
+                    <div className="product-tab-panel active">
+                      {/* 1. TIMELINE OF DAY */}
+                      <div className="usage-timeline-section">
+                        <span className="usage-section-title">Moment idéal de prise :</span>
+                        <div className="usage-schedule-bar">
+                          <div className={`usage-schedule-pill ${details.schedule.morning ? 'active' : ''}`}>
+                            <i className="fa-regular fa-sun"></i> Matin
+                          </div>
+                          <div className={`usage-schedule-pill ${details.schedule.midday ? 'active' : ''}`}>
+                            <i className="fa-solid fa-sun"></i> Midi
+                          </div>
+                          <div className={`usage-schedule-pill ${details.schedule.evening ? 'active' : ''}`}>
+                            <i className="fa-regular fa-moon"></i> Soir
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 2. GRID OF INFOS */}
+                      <div className="usage-guidelines-grid">
+                        <div className="usage-guideline-card">
+                          <div className="usage-card-icon"><i className="fa-solid fa-scale-balanced"></i></div>
+                          <div className="usage-card-text">
+                            <span className="usage-card-label">Dosage</span>
+                            <span className="usage-card-value">{details.dosage}</span>
+                          </div>
+                        </div>
+                        <div className="usage-guideline-card">
+                          <div className="usage-card-icon"><i className="fa-solid fa-calendar-days"></i></div>
+                          <div className="usage-card-text">
+                            <span className="usage-card-label">Fréquence</span>
+                            <span className="usage-card-value">{details.frequency}</span>
+                          </div>
+                        </div>
+                        <div className="usage-guideline-card">
+                          <div className="usage-card-icon"><i className="fa-solid fa-clock"></i></div>
+                          <div className="usage-card-text">
+                            <span className="usage-card-label">Moment Clé</span>
+                            <span className="usage-card-value">{details.timing}</span>
+                          </div>
+                        </div>
+                        <div className="usage-guideline-card">
+                          <div className="usage-card-icon"><i className="fa-solid fa-glass-water"></i></div>
+                          <div className="usage-card-text">
+                            <span className="usage-card-label">Préparation</span>
+                            <span className="usage-card-value">{details.preparation}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 3. DIETITIAN CARD */}
+                      <div className="usage-dietitian-card">
+                        <div className="dietitian-card-avatar">
+                          <img src="https://images.unsplash.com/photo-1594824813573-246434de83fb?fit=crop&w=150&h=150&q=80" alt="Sarah - Diététicienne" />
+                          <span className="dietitian-badge-online">Pro</span>
+                        </div>
+                        <div className="dietitian-card-content">
+                          <h4>Le conseil diététique de Sarah</h4>
+                          <p>&quot;{details.proTip}&quot;</p>
+                        </div>
+                      </div>
+
+                      {/* 4. PRECAUTIONS */}
+                      <div className="usage-precautions-card">
+                        <div className="precautions-icon"><i className="fa-solid fa-triangle-exclamation"></i></div>
+                        <div className="precautions-content">
+                          <h5>Précautions d&apos;emploi</h5>
+                          <p>Ne pas dépasser la dose journalière recommandée. Les compléments alimentaires doivent être utilisés dans le cadre d&apos;un mode de vie sain et ne pas remplacer un régime alimentaire varié et équilibré. Tenir hors de portée des enfants.</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
                 
                 {detailActiveTab === 'ingredients' && (
                   <div className="product-tab-panel active">
