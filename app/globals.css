@@ -4,9 +4,11 @@
   --brand-purple: #B7ACD5;
   --brand-blue: #9DC0E7;
   --brand-green: #BEDBAD;
+  --brand-dark-green: #1E3F27; /* Rich dark green to offset the light green */
 
   /* Legacy variables mapped to the new harmonious palette */
-  --rose: var(--brand-pink);
+  --rose: var(--brand-green); /* dominant color: vert clair */
+  --rose-dark: var(--brand-dark-green);
   --peach: var(--brand-purple);
   --lemon: var(--brand-blue);
   --mint: var(--brand-green);
@@ -15,7 +17,7 @@
   --pink: var(--brand-pink);
 
   /* Light transparent backgrounds using color-mix for perfect harmony */
-  --rose-light: color-mix(in srgb, var(--brand-pink) 25%, transparent);
+  --rose-light: color-mix(in srgb, var(--brand-green) 25%, transparent);
   --peach-light: color-mix(in srgb, var(--brand-purple) 25%, transparent);
   --mint-light: color-mix(in srgb, var(--brand-green) 25%, transparent);
   --sky-light: color-mix(in srgb, var(--brand-blue) 25%, transparent);
@@ -3723,56 +3725,154 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================= */
-/* HARMONIZATION OVERRIDES (Alternating Colors) */
+/* HARMONIZATION & BRANDING OVERRIDES */
 /* ========================================= */
 
-/* Announcement Bar - Purple */
+/* Announcement Bar - Light Green Background, Dark Green Text */
 .announcement-bar {
-  background: var(--brand-purple) !important;
+  background: var(--brand-green) !important;
+  color: var(--brand-dark-green) !important;
 }
 
-/* Primary Buttons (Global) - Blue */
-.btn-primary {
-  background: var(--brand-blue) !important;
-}
-.btn-primary:hover {
-  background: var(--brand-blue) !important;
-  opacity: 0.9;
+/* Force ALL buttons on the site to have a light green background and dark green text */
+.btn-primary,
+.btn-rdv-header,
+.add-cart-btn,
+.cat-prod-quick-add,
+.product-detail-add-btn,
+.cart-checkout-btn,
+.cart-promo-btn,
+.dietitian-cta-btn {
+  background: var(--brand-green) !important;
+  color: var(--brand-dark-green) !important;
+  border: 1px solid var(--brand-green) !important;
+  font-weight: 700 !important;
+  transition: var(--transition) !important;
+  border-radius: 30px !important;
 }
 
-/* Cart Badge - Purple */
-.cart-badge {
-  background: var(--brand-purple) !important;
+/* Hover state for ALL buttons: dark green background with white text */
+.btn-primary:hover,
+.btn-rdv-header:hover,
+.add-cart-btn:hover,
+.cat-prod-quick-add:hover,
+.product-detail-add-btn:hover,
+.cart-checkout-btn:hover,
+.cart-promo-btn:hover,
+.dietitian-cta-btn:hover {
+  background: var(--brand-dark-green) !important;
+  color: var(--white) !important;
+  border-color: var(--brand-dark-green) !important;
 }
 
-/* Hero Trust Badges - Green */
-.hero-trust-badge i {
+/* Secondary Button / WhatsApp Button in dietitian banner: transparent with dark green text/border */
+.dietitian-cta-btn.secondary {
+  background: transparent !important;
+  border: 1px solid var(--brand-green) !important;
   color: var(--brand-green) !important;
 }
-
-/* Product Cards Quick Add Button - Blue */
-.category-product-card .quick-add-btn {
-  background: var(--brand-blue) !important;
-}
-.product-card .add-cart-btn {
-  background: var(--brand-blue) !important;
+.dietitian-cta-btn.secondary:hover {
+  background: var(--brand-green) !important;
+  color: var(--brand-dark-green) !important;
 }
 
-/* Active Filter Buttons - Purple */
+/* Cart Badge - Dark Green */
+.cart-badge {
+  background: var(--brand-dark-green) !important;
+  color: var(--white) !important;
+}
+
+/* Active Filter Buttons - Dark Green background with white text */
 .filter-btn.active {
+  background: var(--brand-dark-green) !important;
+  border-color: var(--brand-dark-green) !important;
+  color: var(--white) !important;
+}
+
+/* Navbar Top Hover - Dark Green */
+.nav-item:hover .nav-link {
+  color: var(--brand-dark-green) !important;
+}
+
+/* Dropdown Menu Column Headers - Alternating Colors for Differentiation */
+.dropdown-col:nth-child(4n+1) h4 {
+  color: var(--brand-dark-green) !important;
+}
+.dropdown-col:nth-child(4n+2) h4 {
+  color: color-mix(in srgb, var(--brand-purple) 70%, var(--brand-dark-green)) !important;
+}
+.dropdown-col:nth-child(4n+3) h4 {
+  color: color-mix(in srgb, var(--brand-blue) 70%, var(--brand-dark-green)) !important;
+}
+.dropdown-col:nth-child(4n+4) h4 {
+  color: color-mix(in srgb, var(--brand-pink) 70%, var(--brand-dark-green)) !important;
+}
+.dropdown-links a:hover {
+  color: var(--brand-dark-green) !important;
+}
+
+/* Product Cards: Differentiate colors on brand and tag badges */
+.product-brand, .cat-prod-brand, .related-brand {
+  color: var(--brand-dark-green) !important;
+  opacity: 0.85;
+}
+
+.product-tag-badge, .cat-prod-tag, .related-tag {
+  color: var(--brand-dark-green) !important;
+  font-weight: 800 !important;
+  border-radius: 20px !important;
+  font-size: 10px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  padding: 4px 10px !important;
+}
+
+/* Odd cards use pink, even cards use purple, related cards use blue */
+.product-card:nth-child(odd) .product-tag-badge, 
+.category-product-card:nth-child(odd) .cat-prod-tag {
+  background: var(--brand-pink) !important;
+}
+.product-card:nth-child(even) .product-tag-badge, 
+.category-product-card:nth-child(even) .cat-prod-tag {
   background: var(--brand-purple) !important;
-  border-color: var(--brand-purple) !important;
 }
-
-/* Newsletter section - Blue accents */
-.newsletter-section {
-  border-top: 4px solid var(--brand-blue);
-}
-
-/* Footer Social Icons - Blue hover */
-.social-icon:hover {
+.related-tag {
   background: var(--brand-blue) !important;
-  border-color: var(--brand-blue) !important;
+}
+
+/* Action Hover Buttons on product card overlays: Green background on hover */
+.action-icon-btn:hover {
+  background: var(--brand-green) !important;
+  color: var(--brand-dark-green) !important;
+}
+
+/* Related Products hover border and brand color differentiation */
+.related-product-card:hover {
+  border-color: var(--brand-dark-green) !important;
+}
+.related-product-card:nth-child(even) .related-brand {
+  color: color-mix(in srgb, var(--brand-purple) 65%, var(--brand-dark-green)) !important;
+}
+.related-product-card:nth-child(odd) .related-brand {
+  color: color-mix(in srgb, var(--brand-blue) 65%, var(--brand-dark-green)) !important;
+}
+
+/* Active tab indicators - Dark Green */
+.product-tab-header.active {
+  border-bottom: 2px solid var(--brand-dark-green) !important;
+  color: var(--brand-dark-green) !important;
+}
+
+/* Newsletter section - Dark Green border */
+.newsletter-section {
+  border-top: 4px solid var(--brand-dark-green) !important;
+}
+
+/* Footer Social Icons - Dark Green hover */
+.social-icon:hover {
+  background: var(--brand-dark-green) !important;
+  border-color: var(--brand-dark-green) !important;
+  color: var(--white) !important;
 }
 
 
