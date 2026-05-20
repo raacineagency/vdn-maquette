@@ -894,7 +894,7 @@ export default function Home() {
             </button>
 
             <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="logo">
-              <img src="/logo%20boutique%202.png" alt="Vidal Nutrition" style={{ height: '42px', width: 'auto', display: 'block' }} />
+              <img src="/logo%20boutique%202.png" alt="Vidal Nutrition" className="navbar-logo-img" />
             </a>
             
             {/* CENTER: Search bar */}
@@ -930,7 +930,7 @@ export default function Home() {
           <div className="navbar-bottom-container">
             <ul className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
               {/* 1. OBJECTIFS (Mega Dropdown) */}
-              <li className={`nav-item ${activeMobileMenu === 'objectifs' ? 'active' : ''}`}>
+              <li className={`nav-item has-mega ${activeMobileMenu === 'objectifs' ? 'active' : ''}`}>
                 <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'objectifs' ? null : 'objectifs')}>Objectifs <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-4">
                   <div className="dropdown-col">
@@ -988,7 +988,7 @@ export default function Home() {
               </li>
 
               {/* 2. NUTRITION SPORTIVE */}
-              <li className={`nav-item ${activeMobileMenu === 'sport' ? 'active' : ''}`}>
+              <li className={`nav-item has-mega ${activeMobileMenu === 'sport' ? 'active' : ''}`}>
                 <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'sport' ? null : 'sport')}>Nutrition Sportive <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-3">
                   <div className="dropdown-col">
@@ -1019,7 +1019,7 @@ export default function Home() {
               </li>
 
               {/* 3. MINCEUR */}
-              <li className={`nav-item ${activeMobileMenu === 'minceur' ? 'active' : ''}`}>
+              <li className={`nav-item has-mega ${activeMobileMenu === 'minceur' ? 'active' : ''}`}>
                 <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'minceur' ? null : 'minceur')}>Minceur <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-3">
                   <div className="dropdown-col">
@@ -1049,7 +1049,7 @@ export default function Home() {
               </li>
 
               {/* 4. SANTÉ & BIEN-ÊTRE */}
-              <li className={`nav-item ${activeMobileMenu === 'sante' ? 'active' : ''}`}>
+              <li className={`nav-item has-mega ${activeMobileMenu === 'sante' ? 'active' : ''}`}>
                 <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'sante' ? null : 'sante')}>Santé & Bien-être <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-3">
                   <div className="dropdown-col">
@@ -1079,7 +1079,7 @@ export default function Home() {
               </li>
 
               {/* 5. ALIMENTATION SAINE */}
-              <li className={`nav-item ${activeMobileMenu === 'alimentation' ? 'active' : ''}`}>
+              <li className={`nav-item has-mega ${activeMobileMenu === 'alimentation' ? 'active' : ''}`}>
                 <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'alimentation' ? null : 'alimentation')}>Alimentation Saine <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="dropdown-panel mega-dropdown cols-3">
                   <div className="dropdown-col">
@@ -1991,18 +1991,20 @@ export default function Home() {
                   {prod.flavors && prod.flavors.length > 0 && (
                     <div className="product-variation-group" style={{ marginTop: '20px' }}>
                       <span className="product-variation-label">Goût</span>
-                      <div className="product-flavor-select-wrapper" style={{ maxWidth: '400px' }}>
-                        <select
-                          className="product-flavor-select"
-                          value={detailSelectedFlavor}
-                          onChange={(e) => setDetailSelectedFlavor(e.target.value)}
-                        >
-                          {prod.flavors.map(f => (
-                            <option value={f} key={f}>
+                      <div className="product-sizes-container">
+                        {prod.flavors.map(f => {
+                          const isActive = detailSelectedFlavor === f;
+                          return (
+                            <button
+                              key={f}
+                              type="button"
+                              className={`product-size-card ${isActive ? 'active' : ''}`}
+                              onClick={() => setDetailSelectedFlavor(f)}
+                            >
                               {f}
-                            </option>
-                          ))}
-                        </select>
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
