@@ -371,6 +371,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--rose);
   padding-left: 4px;
 }
+.simple-dropdown .dropdown-links a,
+.mega-dropdown.cols-2 .dropdown-links a {
+  font-weight: 700;
+  color: var(--brand-dark-green);
+}
+
 
 /* PREMIUM HERO SLIDER WITH BLUR */
 .hero {
@@ -4643,8 +4649,8 @@ h1, h2, h3, h4, h5, h6 {
   }
   .mobile-direct-link {
     font-size: 13.5px;
-    font-weight: 600;
-    color: var(--dark);
+    font-weight: 700;
+    color: var(--brand-dark-green);
     text-decoration: none;
     display: block;
     padding: 8px 0;
