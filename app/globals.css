@@ -374,9 +374,35 @@ h1, h2, h3, h4, h5, h6 {
 .simple-dropdown .dropdown-links a,
 .mega-dropdown.cols-2 .dropdown-links a {
   font-weight: 700;
-  color: var(--brand-dark-green);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
 }
-
+.simple-dropdown .dropdown-links li:nth-child(5n+1) a,
+.mega-dropdown.cols-2 .dropdown-links li:nth-child(5n+1) a {
+  color: #D44D87 !important;
+}
+.simple-dropdown .dropdown-links li:nth-child(5n+2) a,
+.mega-dropdown.cols-2 .dropdown-links li:nth-child(5n+2) a {
+  color: #3E7CB1 !important;
+}
+.simple-dropdown .dropdown-links li:nth-child(5n+3) a,
+.mega-dropdown.cols-2 .dropdown-links li:nth-child(5n+3) a {
+  color: var(--brand-dark-green) !important;
+}
+.simple-dropdown .dropdown-links li:nth-child(5n+4) a,
+.mega-dropdown.cols-2 .dropdown-links li:nth-child(5n+4) a {
+  color: #6D5A9A !important;
+}
+.simple-dropdown .dropdown-links li:nth-child(5n+5) a,
+.mega-dropdown.cols-2 .dropdown-links li:nth-child(5n+5) a {
+  color: #C86A3C !important;
+}
+.simple-dropdown .dropdown-links a:hover,
+.mega-dropdown.cols-2 .dropdown-links a:hover {
+  color: #E085B0 !important;
+  opacity: 0.8;
+}
 
 /* PREMIUM HERO SLIDER WITH BLUR */
 .hero {
@@ -4648,14 +4674,30 @@ h1, h2, h3, h4, h5, h6 {
     padding: 4px 0;
   }
   .mobile-direct-link {
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 700;
-    color: var(--brand-dark-green);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     text-decoration: none;
     display: block;
     padding: 8px 0;
     border-left: 2px solid transparent;
     padding-left: 12px;
+  }
+  .mobile-submenu-list > li:nth-child(5n+1) > .mobile-direct-link {
+    color: #D44D87 !important;
+  }
+  .mobile-submenu-list > li:nth-child(5n+2) > .mobile-direct-link {
+    color: #3E7CB1 !important;
+  }
+  .mobile-submenu-list > li:nth-child(5n+3) > .mobile-direct-link {
+    color: var(--brand-dark-green) !important;
+  }
+  .mobile-submenu-list > li:nth-child(5n+4) > .mobile-direct-link {
+    color: #6D5A9A !important;
+  }
+  .mobile-submenu-list > li:nth-child(5n+5) > .mobile-direct-link {
+    color: #C86A3C !important;
   }
 }
 
