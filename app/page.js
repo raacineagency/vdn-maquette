@@ -1651,61 +1651,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* DIETITIAN BOOKING SECTION */}
-          <section className="section section-bg" id="dietitian">
-            <div className="container">
-              <div className="dietitian-banner">
-                {/* Left Column: Info & Actions */}
-                <div className="dietitian-info" style={{ padding: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80" alt="Sarah Vidal" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '50%', border: '3px solid var(--brand-green)' }} />
-                    <div>
-                      <h4 style={{ fontSize: '18px', fontWeight: '700', color: 'var(--brand-green)' }}>Sarah Vidal</h4>
-                      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>Diététicienne-Nutritionniste D.E.</p>
-                      <div style={{ color: 'var(--peach)', fontSize: '11px', marginTop: '4px' }}>★★★★★ <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px', marginLeft: '4px' }}>4.9 (120+ avis)</span></div>
-                    </div>
-                  </div>
-                  
-                  <h2 style={{ fontSize: '38px', lineHeight: '1.2', marginBottom: '16px', fontWeight: '700' }}>Votre Diététicienne Diplômée en Ligne</h2>
-                  <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.7', marginBottom: '30px' }}>Prenez rendez-vous pour un accompagnement nutritionnel sur-mesure. Rééquilibrage alimentaire, perte de poids durable ou préparation sportive, nous définissons ensemble la méthode idéale pour votre réussite.</p>
-                  
-                  <div style={{ display: 'flex', gap: '16px', justifyContent: 'flex-start', flexWrap: 'wrap', marginTop: '10px' }}>
-                    <a href="tel:0689205302" className="dietitian-cta-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'var(--brand-green)', color: 'var(--dark)', padding: '14px 28px', borderRadius: '30px', textDecoration: 'none', fontWeight: '700' }}><i className="fa-solid fa-phone"></i> Appeler le 06 89 20 53 02</a>
-                    <a href="https://wa.me/33689205302" className="dietitian-cta-btn secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'var(--white)', padding: '14px 28px', borderRadius: '30px', textDecoration: 'none', fontWeight: '700' }}><i className="fa-brands fa-whatsapp"></i> Écrire sur WhatsApp</a>
-                  </div>
-                </div>
 
-                {/* Right Column: Benefits */}
-                <div className="benefits-widget" style={{ padding: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'rgba(255,255,255,0.02)', borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
-                  <h3 style={{ fontSize: '22px', fontWeight: '700', color: 'var(--rose)', marginBottom: '24px' }}>Pourquoi choisir notre accompagnement ?</h3>
-                  
-                  <div className="dietitian-features" style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginBottom: '32px' }}>
-                    <div className="dietitian-feature" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--brand-pink)', fontSize: '18px', marginTop: '2px' }}></i>
-                      <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255,255,255,0.9)' }}><strong>100% sur-mesure</strong> : Vos menus sont élaborés selon vos goûts, vos contraintes et vos objectifs.</span>
-                    </div>
-                    <div className="dietitian-feature" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--brand-purple)', fontSize: '18px', marginTop: '2px' }}></i>
-                      <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255,255,255,0.9)' }}><strong>Bilan complet sous 24h</strong> : Réception de votre plan alimentaire et de vos fiches conseils en PDF.</span>
-                    </div>
-                    <div className="dietitian-feature" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--brand-blue)', fontSize: '18px', marginTop: '2px' }}></i>
-                      <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255,255,255,0.9)' }}><strong>Remboursement mutuelle</strong> : Facture fournie pour une prise en charge par votre complémentaire santé.</span>
-                    </div>
-                    <div className="dietitian-feature" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <i className="fa-solid fa-circle-check" style={{ color: 'var(--brand-green)', fontSize: '18px', marginTop: '2px' }}></i>
-                      <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255,255,255,0.9)' }}><strong>Suivi & motivation</strong> : Échanges réguliers pour ajuster le programme et maintenir vos progrès.</span>
-                    </div>
-                  </div>
-
-                  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '16px', padding: '20px', textAlign: 'center' }}>
-                    <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', marginBottom: '6px' }}><i className="fa-solid fa-info-circle" style={{ color: 'var(--brand-pink)' }}></i> Première consultation remboursée par de nombreuses mutuelles</p>
-                    <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--brand-purple)', letterSpacing: '0.5px' }}>Cabinet Béziers & Consultation à distance</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* TESTIMONIALS SECTION */}
           <section className="section bg-pastel-gradient" id="testimonials" style={{ paddingTop: '80px', paddingBottom: '80px', overflow: 'hidden' }}>
