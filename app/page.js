@@ -505,6 +505,7 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMobileMenu, setActiveMobileMenu] = useState(null);
+  const [activeMobileSubMenu, setActiveMobileSubMenu] = useState(null);
   const [footerDropdownOpen, setFooterDropdownOpen] = useState(false);
   const [expandedFaq, setExpandedFaq] = useState(null);
 
@@ -931,8 +932,11 @@ export default function Home() {
             <ul className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
               {/* 1. OBJECTIFS (Mega Dropdown) */}
               <li className={`nav-item has-mega ${activeMobileMenu === 'objectifs' ? 'active' : ''}`}>
-                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'objectifs' ? null : 'objectifs')}>Objectifs <i className="fa-solid fa-chevron-down"></i></span>
-                <div className="dropdown-panel mega-dropdown cols-4">
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'objectifs' ? null : 'objectifs')}>
+                  Objectifs <i className="fa-solid fa-chevron-down"></i>
+                </span>
+                {/* Desktop View */}
+                <div className="dropdown-panel mega-dropdown cols-4 hide-on-mobile">
                   <div className="dropdown-col">
                     <h4>Perte de poids</h4>
                     <ul className="dropdown-links">
@@ -941,7 +945,7 @@ export default function Home() {
                       <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Draineurs</a></li>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Packs minceur</a></li>
                     </ul>
-                    <h4 style={{ marginTop: '15px' }}>Ventre plat & digestion</h4>
+                    <h4 style={{ marginTop: '20px' }}>Ventre plat & digestion</h4>
                     <ul className="dropdown-links">
                       <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Probiotiques</a></li>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Draineurs</a></li>
@@ -951,13 +955,13 @@ export default function Home() {
                   <div className="dropdown-col">
                     <h4>Énergie & fatigue</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Boosters</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Magnésium</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Adaptogènes</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Boosters</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Magnésium</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Adaptogènes</a></li>
                     </ul>
-                    <h4 style={{ marginTop: '15px' }}>Sommeil & stress</h4>
+                    <h4 style={{ marginTop: '20px' }}>Sommeil & stress</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Mélatonine</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }}>Mélatonine</a></li>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }}>Plantes relaxantes</a></li>
                     </ul>
                   </div>
@@ -966,172 +970,369 @@ export default function Home() {
                     <ul className="dropdown-links">
                       <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Gainers</a></li>
                       <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Créatine'); }}>Créatine</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Acides Aminés</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Packs Performance</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Protéines</a></li>
                     </ul>
-                    <h4 style={{ marginTop: '15px' }}>Endurance & Hydratation</h4>
+                    <h4 style={{ marginTop: '20px' }}>Performance sportive</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Hydratation'); }}>Électrolytes</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Hydratation'); }}>Boissons d&apos;effort</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Pré-workout</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Endurance</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Récupération</a></li>
                     </ul>
                   </div>
                   <div className="dropdown-col">
-                    <h4>Santé au naturel</h4>
+                    <h4>Santé globale</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Vitamines Bio</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }}>Oméga 3 Premium</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Nouveau'); }}>Collagène Marin</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Plantes Bio</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Immunité</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Vitamines</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }}>Oméga 3</a></li>
                     </ul>
                   </div>
                 </div>
+
+                {/* Mobile View */}
+                {activeMobileMenu === 'objectifs' && (
+                  <div className="mobile-submenu-panel show-on-mobile-only">
+                    <ul className="mobile-submenu-list">
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'perte' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'perte' ? null : 'perte')}>
+                          <span>Perte de poids</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'perte' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Brûleurs</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Coupe-faim</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Draineurs</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Packs minceur</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'ventre' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'ventre' ? null : 'ventre')}>
+                          <span>Ventre plat & digestion</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'ventre' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Probiotiques</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Draineurs</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Enzymes</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'energie' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'energie' ? null : 'energie')}>
+                          <span>Énergie & fatigue</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'energie' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Boosters</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Magnésium</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Adaptogènes</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'sommeil' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'sommeil' ? null : 'sommeil')}>
+                          <span>Sommeil & stress</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'sommeil' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }}>Mélatonine</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }}>Plantes relaxantes</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'muscle' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'muscle' ? null : 'muscle')}>
+                          <span>Prise de muscle</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'muscle' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Gainers</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Créatine'); }}>Créatine</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Protéines</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'performance' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'performance' ? null : 'performance')}>
+                          <span>Performance sportive</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'performance' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Pré-workout</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Endurance</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Récupération</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'sante_globale' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'sante_globale' ? null : 'sante_globale')}>
+                          <span>Santé globale</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'sante_globale' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Immunité</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Vitamines</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }}>Oméga 3</a></li>
+                          </ul>
+                        )}
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </li>
 
               {/* 2. NUTRITION SPORTIVE */}
               <li className={`nav-item has-mega ${activeMobileMenu === 'sport' ? 'active' : ''}`}>
-                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'sport' ? null : 'sport')}>Nutrition Sportive <i className="fa-solid fa-chevron-down"></i></span>
-                <div className="dropdown-panel mega-dropdown cols-3">
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'sport' ? null : 'sport')}>
+                  Nutrition Sportive <i className="fa-solid fa-chevron-down"></i>
+                </span>
+                
+                {/* Desktop View */}
+                <div className="dropdown-panel mega-dropdown cols-3 hide-on-mobile">
                   <div className="dropdown-col">
                     <h4>Protéines</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Whey Isolate</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }}>Protéines Végétales</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Clear Whey</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Gainer & Masse</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Whey</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Isolat</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }}>Végétales</a></li>
+                    </ul>
+                    <h4 style={{ marginTop: '20px' }}>Acides aminés</h4>
+                    <ul className="dropdown-links">
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>BCAA</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>EAA</a></li>
                     </ul>
                   </div>
                   <div className="dropdown-col">
-                    <h4>Force & Récupération</h4>
+                    <h4>Endurance</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Créatine'); }}>Créatine Pure</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>BCAA & EAA</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Pré-Workout & Boosters</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Hydratation'); }}>Boissons</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Hydratation'); }}>Gels</a></li>
                     </ul>
+                    <h4 style={{ marginTop: '20px' }}><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Créatine'); }} style={{ color: 'inherit', textDecoration: 'none' }}>Créatine</a></h4>
                   </div>
                   <div className="dropdown-col">
-                    <h4>Hydratation & endurance</h4>
-                    <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Hydratation'); }}>Pastilles Électrolytes</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Hydratation'); }}>Gels Énergétiques</a></li>
-                    </ul>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }} style={{ color: 'inherit', textDecoration: 'none' }}>Pré-workout</a></h4>
+                    <h4 style={{ marginTop: '20px' }}><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }} style={{ color: 'inherit', textDecoration: 'none' }}>Récupération</a></h4>
+                    <h4 style={{ marginTop: '20px' }}><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }} style={{ color: 'inherit', textDecoration: 'none' }}>Gainers</a></h4>
                   </div>
                 </div>
+
+                {/* Mobile View */}
+                {activeMobileMenu === 'sport' && (
+                  <div className="mobile-submenu-panel show-on-mobile-only">
+                    <ul className="mobile-submenu-list">
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'sport-prot' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'sport-prot' ? null : 'sport-prot')}>
+                          <span>Protéines</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'sport-prot' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Whey</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>Isolat</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }}>Végétales</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'sport-acides' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'sport-acides' ? null : 'sport-acides')}>
+                          <span>Acides aminés</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'sport-acides' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>BCAA</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>EAA</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li className={`mobile-submenu-item ${activeMobileSubMenu === 'sport-endurance' ? 'active' : ''}`}>
+                        <div className="mobile-submenu-title" onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === 'sport-endurance' ? null : 'sport-endurance')}>
+                          <span>Endurance</span> <i className="fa-solid fa-chevron-down"></i>
+                        </div>
+                        {activeMobileSubMenu === 'sport-endurance' && (
+                          <ul className="mobile-sub-sublist">
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Hydratation'); }}>Boissons</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Hydratation'); }}>Gels</a></li>
+                          </ul>
+                        )}
+                      </li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Créatine'); }} className="mobile-direct-link">Créatine</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }} className="mobile-direct-link">Pré-workout</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }} className="mobile-direct-link">Récupération</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }} className="mobile-direct-link">Gainers</a></li>
+                    </ul>
+                  </div>
+                )}
               </li>
 
               {/* 3. MINCEUR */}
-              <li className={`nav-item has-mega ${activeMobileMenu === 'minceur' ? 'active' : ''}`}>
-                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'minceur' ? null : 'minceur')}>Minceur <i className="fa-solid fa-chevron-down"></i></span>
-                <div className="dropdown-panel mega-dropdown cols-3">
-                  <div className="dropdown-col">
-                    <h4>Brûler les graisses</h4>
-                    <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Brûleur Jour & Nuit</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Carnitine active</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Thermogéniques puissants</a></li>
-                    </ul>
-                  </div>
-                  <div className="dropdown-col">
-                    <h4>Contrôle du poids</h4>
-                    <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Coupe-faim naturels</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Draineurs détoxifiants</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Probiotiques Ventre Plat</a></li>
-                    </ul>
-                  </div>
-                  <div className="dropdown-col">
-                    <h4>Packs & Programmes</h4>
-                    <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}>Pack Minceur Complet</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}>Cure Détox Éclair</a></li>
-                    </ul>
-                  </div>
+              <li className={`nav-item ${activeMobileMenu === 'minceur' ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'minceur' ? null : 'minceur')}>
+                  Minceur <i className="fa-solid fa-chevron-down"></i>
+                </span>
+                
+                {/* Desktop View */}
+                <div className="dropdown-panel simple-dropdown hide-on-mobile">
+                  <ul className="dropdown-links">
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Brûleurs de graisses</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Coupe-faim</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Draineurs & detox</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Capteurs</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }}>Stabilisation</a></li>
+                  </ul>
                 </div>
+
+                {/* Mobile View */}
+                {activeMobileMenu === 'minceur' && (
+                  <div className="mobile-submenu-panel show-on-mobile-only">
+                    <ul className="mobile-submenu-list">
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }} className="mobile-direct-link">Brûleurs de graisses</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }} className="mobile-direct-link">Coupe-faim</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }} className="mobile-direct-link">Draineurs & detox</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }} className="mobile-direct-link">Capteurs</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Minceur'); }} className="mobile-direct-link">Stabilisation</a></li>
+                    </ul>
+                  </div>
+                )}
               </li>
 
               {/* 4. SANTÉ & BIEN-ÊTRE */}
               <li className={`nav-item has-mega ${activeMobileMenu === 'sante' ? 'active' : ''}`}>
-                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'sante' ? null : 'sante')}>Santé & Bien-être <i className="fa-solid fa-chevron-down"></i></span>
-                <div className="dropdown-panel mega-dropdown cols-3">
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'sante' ? null : 'sante')}>
+                  Santé & Bien-être <i className="fa-solid fa-chevron-down"></i>
+                </span>
+                
+                {/* Desktop View */}
+                <div className="dropdown-panel mega-dropdown cols-2 hide-on-mobile">
                   <div className="dropdown-col">
-                    <h4>Micro-Nutrition</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Multivitamines Bio</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }}>Oméga 3 Epax</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Magnésium Bisglycinate</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Nouveau'); }}>Collagène Peptan®</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Vitamines & minéraux</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Probiotiques</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }}>Oméga 3</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Articulations</a></li>
                     </ul>
                   </div>
                   <div className="dropdown-col">
-                    <h4>Digestion & Transit</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Flore Intestinale</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Enzymes Digestives</a></li>
-                    </ul>
-                  </div>
-                  <div className="dropdown-col">
-                    <h4>Stress, Sommeil & Détente</h4>
-                    <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }}>Ashwagandha KSM-66</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Infusion Sommeil Bio</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}>Digestion</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }}>Sommeil</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }}>Stress</a></li>
                     </ul>
                   </div>
                 </div>
+
+                {/* Mobile View */}
+                {activeMobileMenu === 'sante' && (
+                  <div className="mobile-submenu-panel show-on-mobile-only">
+                    <ul className="mobile-submenu-list">
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }} className="mobile-direct-link">Vitamines & minéraux</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }} className="mobile-direct-link">Probiotiques</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio & Végétal'); }} className="mobile-direct-link">Oméga 3</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }} className="mobile-direct-link">Articulations</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }} className="mobile-direct-link">Digestion</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }} className="mobile-direct-link">Sommeil</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Détente'); }} className="mobile-direct-link">Stress</a></li>
+                    </ul>
+                  </div>
+                )}
               </li>
 
               {/* 5. ALIMENTATION SAINE */}
               <li className={`nav-item has-mega ${activeMobileMenu === 'alimentation' ? 'active' : ''}`}>
-                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'alimentation' ? null : 'alimentation')}>Alimentation Saine <i className="fa-solid fa-chevron-down"></i></span>
-                <div className="dropdown-panel mega-dropdown cols-3">
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'alimentation' ? null : 'alimentation')}>
+                  Alimentation Saine <i className="fa-solid fa-chevron-down"></i>
+                </span>
+                
+                {/* Desktop View */}
+                <div className="dropdown-panel mega-dropdown cols-2 hide-on-mobile">
                   <div className="dropdown-col">
-                    <h4>Snacks & En-cas</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Barres Protéinées</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Cookies Healthy</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Chips de Soja Protéinées</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Collations protéinées</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Barres</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Petit-déjeuner</a></li>
                     </ul>
                   </div>
                   <div className="dropdown-col">
-                    <h4>Petit-déjeuner & cuisine</h4>
                     <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Pâtes à Tartiner Protéinées</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Flav Drops (Arômes)</a></li>
-                    </ul>
-                  </div>
-                  <div className="dropdown-col">
-                    <h4>Superfoods</h4>
-                    <ul className="dropdown-links">
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Spiruline & Chlorella Bio</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Bio'); }}>Graines de Chia Bio</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Pâtes à tartiner</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Cuisine healthy</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }}>Boissons</a></li>
                     </ul>
                   </div>
                 </div>
+
+                {/* Mobile View */}
+                {activeMobileMenu === 'alimentation' && (
+                  <div className="mobile-submenu-panel show-on-mobile-only">
+                    <ul className="mobile-submenu-list">
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }} className="mobile-direct-link">Collations protéinées</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }} className="mobile-direct-link">Barres</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }} className="mobile-direct-link">Petit-déjeuner</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }} className="mobile-direct-link">Pâtes à tartiner</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }} className="mobile-direct-link">Cuisine healthy</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Sans Sucre'); }} className="mobile-direct-link">Boissons</a></li>
+                    </ul>
+                  </div>
+                )}
               </li>
 
               {/* 6. PROGRAMMES & PACKS */}
               <li className={`nav-item ${activeMobileMenu === 'programmes' ? 'active' : ''}`}>
-                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'programmes' ? null : 'programmes')}>Programmes & Packs <i className="fa-solid fa-chevron-down"></i></span>
-                <div className="dropdown-panel simple-dropdown">
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'programmes' ? null : 'programmes')}>
+                  Programmes & Packs <i className="fa-solid fa-chevron-down"></i>
+                </span>
+                
+                {/* Desktop View */}
+                <div className="dropdown-panel simple-dropdown hide-on-mobile">
                   <ul className="dropdown-links">
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}><i className="fa-solid fa-fire" style={{ marginRight: '6px' }}></i> Pack Minceur Complet</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}><i className="fa-solid fa-dumbbell" style={{ marginRight: '6px' }}></i> Pack Performance Sport</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Digestion'); }}><i className="fa-solid fa-heart-pulse" style={{ marginRight: '6px' }}></i> Pack Santé Colon</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}>Programmes minceur</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}>Programmes sportifs</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}>Packs minceur</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}>Packs sport</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }}>Packs santé</a></li>
                   </ul>
                 </div>
+
+                {/* Mobile View */}
+                {activeMobileMenu === 'programmes' && (
+                  <div className="mobile-submenu-panel show-on-mobile-only">
+                    <ul className="mobile-submenu-list">
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }} className="mobile-direct-link">Programmes minceur</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }} className="mobile-direct-link">Programmes sportifs</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }} className="mobile-direct-link">Packs minceur</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }} className="mobile-direct-link">Packs sport</a></li>
+                      <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Conseil Inclus'); }} className="mobile-direct-link">Packs santé</a></li>
+                    </ul>
+                  </div>
+                )}
               </li>
 
               {/* 7. SERVICES */}
-              <li className="nav-item">
-                <span className="nav-link">Services <i className="fa-solid fa-chevron-down"></i></span>
-                <div className="dropdown-panel simple-dropdown">
+              <li className={`nav-item ${activeMobileMenu === 'services' ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => window.innerWidth <= 992 && setActiveMobileMenu(activeMobileMenu === 'services' ? null : 'services')}>
+                  Services <i className="fa-solid fa-chevron-down"></i>
+                </span>
+                
+                {/* Desktop View */}
+                <div className="dropdown-panel simple-dropdown hide-on-mobile">
                   <ul className="dropdown-links">
                     <li><a href="#dietitian"><i className="fa-solid fa-user-doctor" style={{ marginRight: '6px' }}></i> Bilan Nutritionnel (49€)</a></li>
                     <li><a href="#dietitian"><i className="fa-solid fa-calendar-check" style={{ marginRight: '6px' }}></i> Consultation Suivi (29€)</a></li>
                     <li><a href="#dietitian"><i className="fa-solid fa-house-chimney" style={{ marginRight: '6px' }}></i> Cabinet Béziers</a></li>
                   </ul>
                 </div>
-              </li>
 
-              <li><a href="#faqs" className="nav-link" onClick={() => navigateTo('home')}>FAQ</a></li>
+                {/* Mobile View */}
+                {activeMobileMenu === 'services' && (
+                  <div className="mobile-submenu-panel show-on-mobile-only">
+                    <ul className="mobile-submenu-list">
+                      <li><a href="#dietitian" className="mobile-direct-link"><i className="fa-solid fa-user-doctor" style={{ marginRight: '6px' }}></i> Bilan Nutritionnel (49€)</a></li>
+                      <li><a href="#dietitian" className="mobile-direct-link"><i className="fa-solid fa-calendar-check" style={{ marginRight: '6px' }}></i> Consultation Suivi (29€)</a></li>
+                      <li><a href="#dietitian" className="mobile-direct-link"><i className="fa-solid fa-house-chimney" style={{ marginRight: '6px' }}></i> Cabinet Béziers</a></li>
+                    </ul>
+                  </div>
+                )}
+              </li>
             </ul>
           </div>
         </div>
@@ -1234,6 +1435,10 @@ export default function Home() {
               <div className="section-title-wrap">
                 <h2>Nos Catégories</h2>
                 <p>Découvrez notre gamme complète de compléments alimentaires, d&apos;alimentation saine et d&apos;accompagnements.</p>
+                <div className="swipe-indicator-mobile">
+                  <span>Faites glisser</span>
+                  <i className="fa-solid fa-arrow-right"></i>
+                </div>
               </div>
               <div className="product-categories-grid">
                 <a href="#" className="prod-category-card" onClick={(e) => { e.preventDefault(); navigateTo('category', 'Performance'); }}>
@@ -1285,6 +1490,10 @@ export default function Home() {
               <div className="section-title-wrap">
                 <h2>Nos Meilleures Ventes</h2>
                 <p>Une sélection de compléments de premier choix plébiscités par nos praticiens en nutrition.</p>
+                <div className="swipe-indicator-mobile">
+                  <span>Faites glisser</span>
+                  <i className="fa-solid fa-arrow-right"></i>
+                </div>
               </div>
               
               <div className="filter-tabs">
@@ -1351,6 +1560,10 @@ export default function Home() {
               <div className="section-title-wrap">
                 <h2>Votre Diététicien en Ligne</h2>
                 <p>Bénéficiez de consultations à distance personnalisées pour un suivi nutritionnel adapté à vos besoins réels.</p>
+                <div className="swipe-indicator-mobile">
+                  <span>Faites glisser</span>
+                  <i className="fa-solid fa-arrow-right"></i>
+                </div>
               </div>
               <div className="services-grid">
                 <div className="service-card">
@@ -1383,6 +1596,10 @@ export default function Home() {
               <div className="section-title-wrap">
                 <h2>Nos Nouveautés</h2>
                 <p>Découvrez les dernières innovations sélectionnées par notre équipe de nutritionnistes pour optimiser vos résultats.</p>
+                <div className="swipe-indicator-mobile">
+                  <span>Faites glisser</span>
+                  <i className="fa-solid fa-arrow-right"></i>
+                </div>
               </div>
               
               <div className="products-grid">
