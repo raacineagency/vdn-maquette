@@ -1278,6 +1278,7 @@ h1, h2, h3, h4, h5, h6 {
 .faq-header h3 {
   font-size: 17px;
   color: var(--dark);
+  font-weight: 500;
 }
 .faq-icon {
   font-size: 14px;
