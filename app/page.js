@@ -507,7 +507,8 @@ export default function Home() {
   const [activeMobileMenu, setActiveMobileMenu] = useState(null);
   const [activeMobileSubMenu, setActiveMobileSubMenu] = useState(null);
   const [footerDropdownOpen, setFooterDropdownOpen] = useState(false);
-  const [expandedFaq, setExpandedFaq] = useState(null);
+  // Espace Client State
+  const [activeAccountTab, setActiveAccountTab] = useState(null); // null (dashboard), info, address, orders, returns, credits, vouchers, privacy
 
   // Home Page Products Tabs State
   const [activeFilterTab, setActiveFilterTab] = useState('all');
@@ -614,6 +615,9 @@ export default function Home() {
       } else if (hash === '#cart') {
         setActivePage('cart');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#account') {
+        setActivePage('account');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         setActivePage('home');
       }
@@ -660,6 +664,8 @@ export default function Home() {
       window.location.hash = `#product/${hashValue}`;
     } else if (page === 'cart') {
       window.location.hash = '#cart';
+    } else if (page === 'account') {
+      window.location.hash = '#account';
     }
   };
 
@@ -918,6 +924,9 @@ export default function Home() {
             {/* RIGHT: Actions */}
             <div className="nav-right">
               <a href="#dietitian" className="btn-rdv-header"><i className="fa-regular fa-calendar-check"></i> RDV Diététicienne</a>
+              <button className="nav-btn" onClick={() => navigateTo('account')} aria-label="Mon compte" style={{ position: 'relative' }}>
+                <i className="fa-regular fa-circle-user"></i>
+              </button>
               <button className="nav-btn" onClick={() => setCartOpen(true)} aria-label="Open cart">
                 <i className="fa-solid fa-bag-shopping"></i>
                 <span className="cart-badge">{cartTotalItemsCount}</span>
@@ -1798,34 +1807,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* FAQS SECTION */}
-          <section className="section" id="faqs">
-            <div className="container">
-              <div className="section-title-wrap">
-                <h2>Questions Fréquentes</h2>
-                <p>Tout ce que vous devez savoir sur nos produits, le cabinet de Béziers et nos consultations en ligne.</p>
-              </div>
-              
-              <div className="faq-grid">
-                {[
-                  { q: "Comment se déroule la consultation à distance ?", a: "Une fois votre réservation effectuée, vous recevez un lien de visioconférence (ou un appel téléphonique selon votre préférence). La diététicienne réalise un bilan complet et vous transmet ensuite votre plan nutritionnel personnalisé par e-mail sous 24h." },
-                  { q: "Les compléments alimentaires conviennent-ils aux végétariens ?", a: "La majorité de notre gamme VDN est d'origine végétale et convient parfaitement aux végétariens et végétaliens. Les fiches produits mentionnent systématiquement cette indication." },
-                  { q: "Quels sont les délais de livraison ?", a: "Toute commande passée avant 14h est expédiée le jour même. La livraison standard à domicile ou en point relais s'effectue sous 48 heures ouvrées." },
-                  { q: "Puis-je me rendre directement au cabinet physique ?", a: "Absolument ! Notre cabinet physique est situé à Béziers. Vous pouvez planifier votre séance en cabinet en prenant contact directement au 06 89 20 53 02." }
-                ].map((faq, idx) => (
-                  <div key={idx} className={`faq-item ${expandedFaq === idx ? 'active' : ''}`}>
-                    <div className="faq-header" onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}>
-                      <h3>{faq.q}</h3>
-                      <span className="faq-icon"><i className="fa-solid fa-chevron-down"></i></span>
-                    </div>
-                    <div className="faq-content" style={{ maxHeight: expandedFaq === idx ? '200px' : '0px' }}>
-                      <p>{faq.a}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+
 
           {/* NEWSLETTER */}
           <section className="section section-bg">
@@ -2549,84 +2531,325 @@ export default function Home() {
         </main>
       )}
 
+      {activePage === 'account' && (
+        <main id="account-page-content" style={{ minHeight: '85vh', background: 'var(--bg-cream)', padding: '120px 0 60px 0' }}>
+          <div className="container">
+            <div className="account-header" style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h1 className="cart-page-title" style={{ margin: 0 }}>Mon Compte</h1>
+                <p style={{ color: 'var(--text-mid)', marginTop: '8px', fontSize: '15px' }}>Bonjour, Sarah Vidal ! Bienvenue dans votre espace client.</p>
+              </div>
+              {activeAccountTab && (
+                <button className="dietitian-cta-btn" onClick={() => setActiveAccountTab(null)} style={{ background: 'var(--white)', border: '1px solid var(--border)', color: 'var(--dark)', padding: '10px 20px', borderRadius: '30px', cursor: 'pointer', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fa-solid fa-arrow-left"></i> Retour au tableau de bord
+                </button>
+              )}
+            </div>
+
+            {!activeAccountTab ? (
+              <div className="account-grid">
+                {/* 1. INFORMATIONS PERSONNELLES */}
+                <div className="account-card" onClick={() => setActiveAccountTab('info')}>
+                  <div className="account-card-icon"><i className="fa-regular fa-user"></i></div>
+                  <div className="account-card-body">
+                    <h3>INFORMATIONS PERSONNELLES</h3>
+                    <p>Modifiez vos coordonnées de profil, votre adresse e-mail et vos mots de passe de sécurité.</p>
+                  </div>
+                  <div className="account-card-arrow"><i className="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                {/* 2. AJOUTER L'ADRESSE */}
+                <div className="account-card" onClick={() => setActiveAccountTab('address')}>
+                  <div className="account-card-icon"><i className="fa-solid fa-location-dot"></i></div>
+                  <div className="account-card-body">
+                    <h3>AJOUTER L'ADRESSE</h3>
+                    <p>Configurez et modifiez vos adresses de livraison et de facturation pour vos commandes.</p>
+                  </div>
+                  <div className="account-card-arrow"><i className="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                {/* 3. HISTORIQUE DES COMMANDES */}
+                <div className="account-card" onClick={() => setActiveAccountTab('orders')}>
+                  <div className="account-card-icon"><i className="fa-solid fa-clock-rotate-left"></i></div>
+                  <div className="account-card-body">
+                    <h3>HISTORIQUE DES COMMANDES</h3>
+                    <p>Visualisez vos commandes récentes, téléchargez vos factures et suivez vos colis.</p>
+                  </div>
+                  <div className="account-card-arrow"><i className="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                {/* 4. RETOUR DE MARCHANDISE */}
+                <div className="account-card" onClick={() => setActiveAccountTab('returns')}>
+                  <div className="account-card-icon"><i className="fa-solid fa-box-open"></i></div>
+                  <div className="account-card-body">
+                    <h3>RETOUR DE MARCHANDISE</h3>
+                    <p>Déclarez un retour de produit défectueux ou non-conforme et suivez le statut de remboursement.</p>
+                  </div>
+                  <div className="account-card-arrow"><i className="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                {/* 5. LISTE DES AVOIRS */}
+                <div className="account-card" onClick={() => setActiveAccountTab('credits')}>
+                  <div className="account-card-icon"><i className="fa-solid fa-receipt"></i></div>
+                  <div className="account-card-body">
+                    <h3>LISTE DES AVOIRS</h3>
+                    <p>Consultez vos avoirs créditeurs et remboursements en attente suite à vos retours.</p>
+                  </div>
+                  <div className="account-card-arrow"><i className="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                {/* 6. BON DE REDUCTION OU BON D'ACHATS */}
+                <div className="account-card" onClick={() => setActiveAccountTab('vouchers')}>
+                  <div className="account-card-icon"><i className="fa-solid fa-tag"></i></div>
+                  <div className="account-card-body">
+                    <h3>BON DE REDUCTION OU BON D'ACHATS</h3>
+                    <p>Suivez vos avantages fidélité, vos points d'achat et activez vos codes de réductions.</p>
+                  </div>
+                  <div className="account-card-arrow"><i className="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                {/* 7. MES DONNÉES PERSONNELLES */}
+                <div className="account-card" onClick={() => setActiveAccountTab('privacy')}>
+                  <div className="account-card-icon"><i className="fa-solid fa-user-shield"></i></div>
+                  <div className="account-card-body">
+                    <h3>MES DONNÉES PERSONNELLES</h3>
+                    <p>Exportez vos données privées au format CSV ou demandez la suppression conforme RGPD.</p>
+                  </div>
+                  <div className="account-card-arrow"><i className="fa-solid fa-chevron-right"></i></div>
+                </div>
+              </div>
+            ) : (
+              <div className="account-tab-content">
+                {activeAccountTab === 'info' && (
+                  <div className="account-tab-pane">
+                    <h2>Informations personnelles</h2>
+                    <form onSubmit={(e) => { e.preventDefault(); alert('Informations mises à jour avec succès !'); setActiveAccountTab(null); }} className="account-form">
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Civilité</label>
+                          <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '14px' }}><input type="radio" name="civility" defaultChecked /> Mme</label>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '14px' }}><input type="radio" name="civility" /> M.</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Prénom</label>
+                          <input type="text" defaultValue="Sarah" required />
+                        </div>
+                        <div className="form-group">
+                          <label>Nom</label>
+                          <input type="text" defaultValue="Vidal" required />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>E-mail</label>
+                          <input type="email" defaultValue="sarah.vidal@example.com" required />
+                        </div>
+                        <div className="form-group">
+                          <label>Date de naissance</label>
+                          <input type="date" defaultValue="1992-06-15" />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Nouveau mot de passe (optionnel)</label>
+                          <input type="password" placeholder="Saisir pour modifier" />
+                        </div>
+                        <div className="form-group">
+                          <label>Confirmer le mot de passe</label>
+                          <input type="password" placeholder="Confirmer le nouveau mot de passe" />
+                        </div>
+                      </div>
+                      <div className="form-actions">
+                        <button type="submit" className="dietitian-cta-btn" style={{ background: 'var(--brand-dark-green)', color: 'var(--white)', padding: '12px 30px', borderRadius: '30px', border: 'none', cursor: 'pointer', fontWeight: 700 }}>Sauvegarder les modifications</button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+
+                {activeAccountTab === 'address' && (
+                  <div className="account-tab-pane">
+                    <h2>Mes Adresses</h2>
+                    <div className="addresses-container">
+                      <div className="address-box">
+                        <div className="address-box-header">
+                          <h3>Adresse de livraison par défaut</h3>
+                          <span className="badge">Défaut</span>
+                        </div>
+                        <p><strong>Sarah Vidal</strong></p>
+                        <p>12 Rue de la République</p>
+                        <p>34500 Béziers</p>
+                        <p>France</p>
+                        <p>Tél : 06 89 20 53 02</p>
+                        <div className="address-actions">
+                          <button className="btn-link" onClick={() => alert('Modification adresse')}><i className="fa-solid fa-pen"></i> Modifier</button>
+                          <button className="btn-link text-danger" onClick={() => alert('Suppression impossible pour l\'adresse par défaut')}><i className="fa-solid fa-trash-can"></i> Supprimer</button>
+                        </div>
+                      </div>
+
+                      <div className="address-box add-new" onClick={() => alert('Ajouter une nouvelle adresse')}>
+                        <i className="fa-solid fa-plus-circle"></i>
+                        <span>Ajouter une nouvelle adresse</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeAccountTab === 'orders' && (
+                  <div className="account-tab-pane">
+                    <h2>Historique des Commandes</h2>
+                    <div className="orders-table-wrapper">
+                      <table className="orders-table">
+                        <thead>
+                          <tr>
+                            <th>Référence</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Statut</th>
+                            <th>Détail / Facture</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><strong>#VDN-9842</strong></td>
+                            <td>12 Mai 2026</td>
+                            <td>84,90 €</td>
+                            <td><span className="status-badge shipped">Livré</span></td>
+                            <td>
+                              <button className="btn-link" onClick={() => alert('Téléchargement de la facture PDF...')}><i className="fa-solid fa-file-pdf"></i> Facture</button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><strong>#VDN-9751</strong></td>
+                            <td>24 Avril 2026</td>
+                            <td>45,00 €</td>
+                            <td><span className="status-badge shipped">Livré</span></td>
+                            <td>
+                              <button className="btn-link" onClick={() => alert('Téléchargement de la facture PDF...')}><i className="fa-solid fa-file-pdf"></i> Facture</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {activeAccountTab === 'returns' && (
+                  <div className="account-tab-pane">
+                    <h2>Retours de marchandise</h2>
+                    <div className="empty-tab-state">
+                      <i className="fa-solid fa-box-open" style={{ fontSize: '48px', color: 'var(--text-light)', marginBottom: '16px' }}></i>
+                      <h3>Aucun retour en cours</h3>
+                      <p>Vous n&apos;avez effectué aucune demande de retour de marchandise.</p>
+                      <button className="dietitian-cta-btn" onClick={() => setActiveAccountTab('orders')} style={{ background: 'var(--brand-green)', color: 'var(--dark)', padding: '12px 30px', borderRadius: '30px', border: 'none', cursor: 'pointer', fontWeight: 700, marginTop: '20px' }}>
+                        Sélectionner une commande à retourner
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {activeAccountTab === 'credits' && (
+                  <div className="account-tab-pane">
+                    <h2>Mes Avoirs</h2>
+                    <div className="empty-tab-state">
+                      <i className="fa-solid fa-receipt" style={{ fontSize: '48px', color: 'var(--text-light)', marginBottom: '16px' }}></i>
+                      <h3>Aucun avoir disponible</h3>
+                      <p>Vous n&apos;avez pas d&apos;avoirs créditeurs sur votre compte pour le moment.</p>
+                    </div>
+                  </div>
+                )}
+
+                {activeAccountTab === 'vouchers' && (
+                  <div className="account-tab-pane">
+                    <h2>Bons de réduction & Bons d&apos;achats</h2>
+                    <div className="vouchers-container">
+                      <div className="voucher-card">
+                        <div className="voucher-card-left">
+                          <span className="discount">-10%</span>
+                        </div>
+                        <div className="voucher-card-right">
+                          <h3>Code de bienvenue</h3>
+                          <p>Bénéficiez de 10% de réduction sur votre prochaine commande avec le code <strong>VDN10</strong></p>
+                          <div className="code-copy">
+                            <span>Code : <strong>VDN10</strong></span>
+                            <button className="btn-link" onClick={() => { navigator.clipboard.writeText('VDN10'); alert('Code copié !'); }}><i className="fa-solid fa-copy"></i> Copier</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeAccountTab === 'privacy' && (
+                  <div className="account-tab-pane">
+                    <h2>Données Personnelles (RGPD)</h2>
+                    <p style={{ color: 'var(--text-mid)', lineHeight: 1.6, marginBottom: '24px' }}>
+                      Conformément au Règlement Général sur la Protection des Données (RGPD), vous avez le droit de gérer et de demander l'exportation ou la suppression de vos données personnelles collectées sur notre site.
+                    </p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+                      <button className="dietitian-cta-btn" onClick={() => alert('Export des données CSV demandé. Un e-mail contenant le lien de téléchargement vous a été envoyé.')} style={{ background: 'var(--brand-dark-green)', color: 'var(--white)', padding: '12px 24px', borderRadius: '30px', border: 'none', cursor: 'pointer', fontWeight: 600 }}>
+                        <i className="fa-solid fa-file-export"></i> Exporter mes données (CSV)
+                      </button>
+                      <button className="dietitian-cta-btn" onClick={() => {
+                        if(confirm('Êtes-vous sûr de vouloir supprimer définitivement votre compte client et toutes les données associées ? Cette action est irréversible.')) {
+                          alert('Demande de suppression prise en compte. Notre délégué à la protection des données traitera votre demande sous 48h.');
+                        }
+                      }} style={{ background: 'var(--brand-pink)', color: 'var(--dark)', padding: '12px 24px', borderRadius: '30px', border: 'none', cursor: 'pointer', fontWeight: 600 }}>
+                        <i className="fa-solid fa-user-slash"></i> Demander la suppression du compte
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </main>
+      )}
+
       {/* FOOTER */}
       <footer className="footer">
         <div className="footer-grid">
-          <div className="footer-brand">
-            <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="logo" style={{ marginBottom: '20px', display: 'inline-block' }}>
-              <img src="/logo%20boutique%202.png" alt="Vidal Nutrition" style={{ height: '50px', width: 'auto', display: 'block' }} />
-            </a>
-            <p>Boutique officielle de compléments alimentaires haut de gamme et cabinet de diététique clinique et sportive.</p>
-            <div className="social-icons">
-              <a href="#" className="social-icon" aria-label="Instagram"><i className="fa-brands fa-instagram"></i></a>
-              <a href="#" className="social-icon" aria-label="Facebook"><i className="fa-brands fa-facebook-f"></i></a>
-              <a href="#" className="social-icon" aria-label="TikTok"><i className="fa-brands fa-tiktok"></i></a>
-              <a href="#" className="social-icon" aria-label="Twitter"><i className="fa-brands fa-twitter"></i></a>
-            </div>
-          </div>
-          <div className="footer-col" style={{ minWidth: '250px' }} ref={dropdownRef}>
-            <h4>Nos Produits</h4>
-            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '12px', lineHeight: 1.4 }}>Accédez rapidement à toutes nos gammes de compléments alimentaires :</p>
-            
-            <div className="footer-dropdown-container" style={{ position: 'relative', width: '100%' }}>
-              <button
-                className="footer-dropdown-btn"
-                onClick={(e) => { e.stopPropagation(); setFooterDropdownOpen(!footerDropdownOpen); }}
-                style={{ width: '100%', display: 'inline-flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--white)', padding: '14px 20px', borderRadius: '30px', cursor: 'pointer', fontSize: '14px', fontWeight: 600 }}
-              >
-                <span>Choisir une catégorie...</span>
-                <i className="fa-solid fa-chevron-down" style={{ transition: 'all 0.3s', transform: footerDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', fontSize: '12px', marginLeft: '10px' }}></i>
-              </button>
-              
-              {footerDropdownOpen && (
-                <div className="footer-dropdown-menu" style={{ display: 'block', position: 'absolute', bottom: 'calc(100% + 10px)', left: 0, width: '100%', minWidth: '280px', background: '#161514', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', zIndex: 999, maxHeight: '320px', overflowY: 'auto', padding: '20px' }}>
-                  {/* Nutrition Sportive */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--brand-purple)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-dumbbell"></i> Nutrition Sportive</div>
-                    <ul style={{ listStyle: 'none', paddingLeft: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Performance'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Whey & Isolat</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Performance'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Acides Aminés (BCAA, EAA)</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Créatine'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Créatine Monohydrate</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Performance'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Pré-Workout & Énergie</a></li>
-                    </ul>
-                  </div>
-                  {/* Minceur */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--brand-blue)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-fire"></i> Minceur</div>
-                    <ul style={{ listStyle: 'none', paddingLeft: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Minceur'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Brûleurs de Graisse</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Minceur'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Coupe-Faim & Draineurs</a></li>
-                    </ul>
-                  </div>
-                  {/* Santé & Bien-être */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--brand-green)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}><i className="fa-solid fa-heart-pulse"></i> Santé & Bien-être</div>
-                    <ul style={{ listStyle: 'none', paddingLeft: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Digestion'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Ventre Plat & Probiotiques</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Détente'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Sommeil & Adaptogènes</a></li>
-                      <li><a href="#" onClick={(e) => { e.preventDefault(); setFooterDropdownOpen(false); navigateTo('category', 'Bio & Végétal'); }} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '13px' }}>Vitamines & Oméga 3</a></li>
-                    </ul>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
           <div className="footer-col">
-            <h4>Nos Services</h4>
-            <ul className="footer-links">
-              <li><a href="#dietitian" className="footer-link">Bilan Diététique (49€)</a></li>
-              <li><a href="#dietitian" className="footer-link">Programme Remise (39€)</a></li>
-              <li><a href="#dietitian" className="footer-link">Suivi Mensuel (29€)</a></li>
-              <li><a href="tel:0689205302" className="footer-link">Cabinet Physique Béziers</a></li>
+            <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}>CENTRE DIÉTÉTIQUE BÉZIERS</h4>
+            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
+              <li><a href="#dietitian-services" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>CONSULTATIONS DIÉTÉTIQUES</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>BOUTIQUE DE BÉZIERS</a></li>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>CRYOLIPOLYSE</a></li>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>IDÉES RECETTES</a></li>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>ACTUALITÉS NUTRITION</a></li>
+              <li><a href="tel:0689205302" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>CONTACT & RENDEZ-VOUS</a></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Aide & Infos</h4>
-            <ul className="footer-links">
-              <li><a href="#" className="footer-link">Mentions Légales</a></li>
-              <li><a href="#" className="footer-link">CGV / CGU</a></li>
-              <li><a href="#" className="footer-link">Politique de retour</a></li>
-              <li><a href="#" className="footer-link">Contactez-nous</a></li>
+            <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}>PRODUITS</h4>
+            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>PROMOTIONS</a></li>
+              <li><a href="#new-arrivals" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>NOUVEAUX PRODUITS</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>MEILLEURES VENTES</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>GAMME VDN</a></li>
+              <li><a href="#dietitian-services" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>VOS DIÉTÉTICIENS EN LIGNE</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}>NOTRE SOCIÉTÉ</h4>
+            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>LIVRAISON</a></li>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>MENTIONS LÉGALES</a></li>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>CONDITIONS GÉNÉRALE DE VENTES</a></li>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>PAIEMENT SÉCURISÉ</a></li>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>CONTACTEZ-NOUS</a></li>
+              <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>SITEMAP</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}>VOTRE COMPTE</h4>
+            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('account'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>ME CONNECTER</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('account'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>MON ESPACE</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('account'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>MES COMMANDES</a></li>
             </ul>
           </div>
         </div>
