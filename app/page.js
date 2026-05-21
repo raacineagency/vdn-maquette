@@ -506,7 +506,20 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMobileMenu, setActiveMobileMenu] = useState(null);
   const [activeMobileSubMenu, setActiveMobileSubMenu] = useState(null);
-  const [footerDropdownOpen, setFooterDropdownOpen] = useState(false);
+  const [openFooterSections, setOpenFooterSections] = useState({
+    diet: false,
+    products: false,
+    society: false,
+    account: false
+  });
+
+  const toggleFooterSection = (section) => {
+    setOpenFooterSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   // Espace Client State
   const [activeAccountTab, setActiveAccountTab] = useState(null); // null (dashboard), info, address, orders, returns, credits, vouchers, privacy
 
@@ -540,7 +553,6 @@ export default function Home() {
 
   // Timers and refs
   const slideInterval = useRef(null);
-  const dropdownRef = useRef(null);
 
   // Initialize Cart from localStorage (safely on client mount)
   useEffect(() => {
@@ -642,16 +654,7 @@ export default function Home() {
     return () => clearInterval(slideInterval.current);
   }, [activePage]);
 
-  // Click outside listener for footer dropdown
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setFooterDropdownOpen(false);
-      }
-    };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+
 
   // Navigation functions
   const navigateTo = (page, hashValue = '') => {
@@ -1831,7 +1834,7 @@ export default function Home() {
       )}
 
       {activePage === 'category' && (
-        <main id="category-page-content" style={{ minHeight: '80vh', background: 'var(--bg-cream)', padding: '120px 0 60px 0' }}>
+        <main id="category-page-content" style={{ minHeight: '80vh', background: 'var(--bg-cream)', padding: '40px 0 60px 0' }}>
           <div className="container">
             <div className="breadcrumb-nav">
               <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home'); }}>Accueil</a>
@@ -2049,7 +2052,7 @@ export default function Home() {
         const associated = getAssociatedProducts(currentProductId);
 
         return (
-          <main id="product-page-content" style={{ minHeight: '80vh', background: 'var(--bg-cream)', padding: '120px 0 60px 0' }}>
+          <main id="product-page-content" style={{ minHeight: '80vh', background: 'var(--bg-cream)', padding: '40px 0 60px 0' }}>
             <div className="container" id="product-detail-container">
               <div className="breadcrumb-nav">
                 <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home'); }}>Accueil</a>
@@ -2401,7 +2404,7 @@ export default function Home() {
       })()}
 
       {activePage === 'cart' && (
-        <main id="cart-page-content" style={{ minHeight: '80vh', background: 'var(--bg-cream)', padding: '120px 0 60px 0' }}>
+        <main id="cart-page-content" style={{ minHeight: '80vh', background: 'var(--bg-cream)', padding: '40px 0 60px 0' }}>
           <div className="container">
             <h1 className="cart-page-title">Mon Panier</h1>
             
@@ -2532,16 +2535,16 @@ export default function Home() {
       )}
 
       {activePage === 'account' && (
-        <main id="account-page-content" style={{ minHeight: '85vh', background: 'var(--bg-cream)', padding: '120px 0 60px 0' }}>
+        <main id="account-page-content" style={{ minHeight: '85vh', background: 'var(--bg-cream)', padding: '40px 0 60px 0' }}>
           <div className="container">
-            <div className="account-header" style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="account-header">
               <div>
                 <h1 className="cart-page-title" style={{ margin: 0 }}>Mon Compte</h1>
                 <p style={{ color: 'var(--text-mid)', marginTop: '8px', fontSize: '15px' }}>Bonjour, Sarah Vidal ! Bienvenue dans votre espace client.</p>
               </div>
               {activeAccountTab && (
-                <button className="dietitian-cta-btn" onClick={() => setActiveAccountTab(null)} style={{ background: 'var(--white)', border: '1px solid var(--border)', color: 'var(--dark)', padding: '10px 20px', borderRadius: '30px', cursor: 'pointer', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                  <i className="fa-solid fa-arrow-left"></i> Retour au tableau de bord
+                <button className="account-back-btn" onClick={() => setActiveAccountTab(null)}>
+                  <i className="fa-solid fa-arrow-left"></i> Retour<span className="hide-on-mobile"> au tableau de bord</span>
                 </button>
               )}
             </div>
@@ -2813,8 +2816,17 @@ export default function Home() {
       <footer className="footer">
         <div className="footer-grid">
           <div className="footer-col">
-            <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}>CENTRE DIÉTÉTIQUE BÉZIERS</h4>
-            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
+            <h4 
+              className={`footer-col-title ${openFooterSections.diet ? 'open' : ''}`}
+              onClick={() => toggleFooterSection('diet')}
+              style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}
+            >
+              CENTRE DIÉTÉTIQUE BÉZIERS
+              <span className={`footer-chevron ${openFooterSections.diet ? 'open' : ''}`}>
+                <i className="fa-solid fa-chevron-down"></i>
+              </span>
+            </h4>
+            <ul className={`footer-links ${openFooterSections.diet ? 'open' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
               <li><a href="#dietitian-services" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>CONSULTATIONS DIÉTÉTIQUES</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>BOUTIQUE DE BÉZIERS</a></li>
               <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>CRYOLIPOLYSE</a></li>
@@ -2824,8 +2836,17 @@ export default function Home() {
             </ul>
           </div>
           <div className="footer-col">
-            <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}>PRODUITS</h4>
-            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
+            <h4 
+              className={`footer-col-title ${openFooterSections.products ? 'open' : ''}`}
+              onClick={() => toggleFooterSection('products')}
+              style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}
+            >
+              PRODUITS
+              <span className={`footer-chevron ${openFooterSections.products ? 'open' : ''}`}>
+                <i className="fa-solid fa-chevron-down"></i>
+              </span>
+            </h4>
+            <ul className={`footer-links ${openFooterSections.products ? 'open' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
               <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>PROMOTIONS</a></li>
               <li><a href="#new-arrivals" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>NOUVEAUX PRODUITS</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('category'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>MEILLEURES VENTES</a></li>
@@ -2834,8 +2855,17 @@ export default function Home() {
             </ul>
           </div>
           <div className="footer-col">
-            <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}>NOTRE SOCIÉTÉ</h4>
-            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
+            <h4 
+              className={`footer-col-title ${openFooterSections.society ? 'open' : ''}`}
+              onClick={() => toggleFooterSection('society')}
+              style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}
+            >
+              NOTRE SOCIÉTÉ
+              <span className={`footer-chevron ${openFooterSections.society ? 'open' : ''}`}>
+                <i className="fa-solid fa-chevron-down"></i>
+              </span>
+            </h4>
+            <ul className={`footer-links ${openFooterSections.society ? 'open' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
               <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>LIVRAISON</a></li>
               <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>MENTIONS LÉGALES</a></li>
               <li><a href="#" className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>CONDITIONS GÉNÉRALE DE VENTES</a></li>
@@ -2845,8 +2875,17 @@ export default function Home() {
             </ul>
           </div>
           <div className="footer-col">
-            <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}>VOTRE COMPTE</h4>
-            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
+            <h4 
+              className={`footer-col-title ${openFooterSections.account ? 'open' : ''}`}
+              onClick={() => toggleFooterSection('account')}
+              style={{ textTransform: 'uppercase', letterSpacing: '0.8px', fontSize: '14px', color: 'var(--white)', marginBottom: '24px', fontWeight: '700' }}
+            >
+              VOTRE COMPTE
+              <span className={`footer-chevron ${openFooterSections.account ? 'open' : ''}`}>
+                <i className="fa-solid fa-chevron-down"></i>
+              </span>
+            </h4>
+            <ul className={`footer-links ${openFooterSections.account ? 'open' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
               <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('account'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>ME CONNECTER</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('account'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>MON ESPACE</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); navigateTo('account'); }} className="footer-link" style={{ fontSize: '12px', textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: '500', transition: 'all 0.3s' }}>MES COMMANDES</a></li>
@@ -2855,6 +2894,13 @@ export default function Home() {
         </div>
         <div className="footer-bottom">
           <p>&copy; 2026 Vidal Diet Nutrition. Tous droits réservés.</p>
+          <div className="footer-payment-icons">
+            <i className="fa-brands fa-cc-visa" title="Visa"></i>
+            <i className="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+            <i className="fa-brands fa-cc-paypal" title="PayPal"></i>
+            <i className="fa-brands fa-cc-apple-pay" title="Apple Pay"></i>
+            <i className="fa-brands fa-cc-stripe" title="Stripe"></i>
+          </div>
           <div className="footer-bottom-links">
             <a href="#" className="footer-link" style={{ marginLeft: '16px' }}>Sécurité</a>
             <a href="#" className="footer-link" style={{ marginLeft: '16px' }}>Confidentialité</a>
