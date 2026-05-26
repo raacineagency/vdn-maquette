@@ -2802,6 +2802,91 @@ h1, h2, h3, h4, h5, h6 {
 .product-tab-panel.active {
   display: block;
 }
+
+/* Tab/Accordion visibility */
+.desktop-only-tabs {
+  display: block;
+}
+.mobile-only-accordion {
+  display: none;
+}
+
+/* Mobile Accordion for Product Tabs */
+.product-tabs-accordion-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-accordion-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-accordion-item.active {
+  border-color: var(--rose);
+  box-shadow: 0 4px 15px rgba(243, 162, 172, 0.1);
+}
+
+.product-accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.product-accordion-header i {
+  font-size: 14px;
+  color: var(--text-mid);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-accordion-item.active .product-accordion-header {
+  color: var(--rose);
+  border-bottom: 1px solid var(--border);
+}
+
+.product-accordion-item.active .product-accordion-header i {
+  transform: rotate(180deg);
+  color: var(--rose);
+}
+
+.product-accordion-collapse-wrapper {
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-accordion-body {
+  padding: 20px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+/* Fix styles inside accordion for mobile */
+.product-accordion-body .nutrition-table {
+  margin-top: 10px;
+}
+.product-accordion-body .usage-guidelines-grid {
+  gap: 12px;
+}
+.product-accordion-body .usage-schedule-bar {
+  gap: 8px;
+}
+
 .nutrition-table {
   width: 100%;
   border-collapse: collapse;
@@ -3399,6 +3484,12 @@ h1, h2, h3, h4, h5, h6 {
   .product-tabs-container {
     margin-top: 40px;
     padding-top: 30px;
+  }
+  .desktop-only-tabs {
+    display: none !important;
+  }
+  .mobile-only-accordion {
+    display: flex !important;
   }
   .cart-page-grid {
     grid-template-columns: 1fr;

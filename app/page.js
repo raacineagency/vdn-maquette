@@ -533,6 +533,20 @@ export default function Home() {
   const [detailActiveTab, setDetailActiveTab] = useState('desc');
   const [detailMainImage, setDetailMainImage] = useState('');
   const [expandedDetailFaq, setExpandedDetailFaq] = useState(null);
+  const [mobileActiveTabs, setMobileActiveTabs] = useState({
+    desc: true,
+    usage: false,
+    ingredients: false,
+    faq: false,
+    reviews: false
+  });
+
+  const toggleMobileTab = (tab) => {
+    setMobileActiveTabs(prev => ({
+      ...prev,
+      [tab]: !prev[tab]
+    }));
+  };
 
   // Category Sidebar Filters State
   const [sidebarCategories, setSidebarCategories] = useState([]); // Selected categories checkboxes
@@ -599,6 +613,13 @@ export default function Home() {
           setDetailQty(1);
           setDetailActiveTab('desc');
           setExpandedDetailFaq(null);
+          setMobileActiveTabs({
+            desc: true,
+            usage: false,
+            ingredients: false,
+            faq: false,
+            reviews: false
+          });
           setActivePage('product');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
@@ -2051,6 +2072,156 @@ export default function Home() {
         const oldPriceHtml = displayedOldPrice ? <span className="product-detail-old-price">{displayedOldPrice.toFixed(2).replace('.', ',')} €</span> : null;
         const associated = getAssociatedProducts(currentProductId);
 
+        const descContent = (
+          <div className="product-tab-content-inner">
+            <p>{prod.description}</p>
+            <p style={{ marginTop: '15px' }}>Nos compléments alimentaires sont rigoureusement sélectionnés pour leur biodisponibilité élevée et leur tolérance digestive optimale. Conçus en collaboration avec des professionnels de santé.</p>
+          </div>
+        );
+
+        const usageDetails = USAGE_DETAILS[prod.id] || {
+          dosage: prod.usage,
+          timing: "Au cours de la journée",
+          preparation: "Prendre avec de l'eau",
+          frequency: "1 fois par jour",
+          proTip: "Respectez les doses quotidiennes recommandées.",
+          schedule: { morning: true, midday: true, evening: true }
+        };
+
+        const usageContent = (
+          <div className="product-tab-content-inner">
+            <div className="usage-timeline-section">
+              <span className="usage-section-title">Moment idéal de prise :</span>
+              <div className="usage-schedule-bar">
+                <div className={`usage-schedule-pill ${usageDetails.schedule.morning ? 'active' : ''}`}>
+                  <i className="fa-regular fa-sun"></i> Matin
+                </div>
+                <div className={`usage-schedule-pill ${usageDetails.schedule.midday ? 'active' : ''}`}>
+                  <i className="fa-solid fa-sun"></i> Midi
+                </div>
+                <div className={`usage-schedule-pill ${usageDetails.schedule.evening ? 'active' : ''}`}>
+                  <i className="fa-regular fa-moon"></i> Soir
+                </div>
+              </div>
+            </div>
+
+            <div className="usage-guidelines-grid">
+              <div className="usage-guideline-card">
+                <div className="usage-card-icon"><i className="fa-solid fa-scale-balanced"></i></div>
+                <div className="usage-card-text">
+                  <span className="usage-card-label">Dosage</span>
+                  <span className="usage-card-value">{usageDetails.dosage}</span>
+                </div>
+              </div>
+              <div className="usage-guideline-card">
+                <div className="usage-card-icon"><i className="fa-solid fa-calendar-days"></i></div>
+                <div className="usage-card-text">
+                  <span className="usage-card-label">Fréquence</span>
+                  <span className="usage-card-value">{usageDetails.frequency}</span>
+                </div>
+              </div>
+              <div className="usage-guideline-card">
+                <div className="usage-card-icon"><i className="fa-solid fa-clock"></i></div>
+                <div className="usage-card-text">
+                  <span className="usage-card-label">Moment Clé</span>
+                  <span className="usage-card-value">{usageDetails.timing}</span>
+                </div>
+              </div>
+              <div className="usage-guideline-card">
+                <div className="usage-card-icon"><i className="fa-solid fa-glass-water"></i></div>
+                <div className="usage-card-text">
+                  <span className="usage-card-label">Préparation</span>
+                  <span className="usage-card-value">{usageDetails.preparation}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="usage-dietitian-card">
+              <div className="dietitian-card-avatar">
+                <img src="https://images.unsplash.com/photo-1594824813573-246434de83fb?fit=crop&w=150&h=150&q=80" alt="Sarah - Diététicienne" />
+                <span className="dietitian-badge-online">Pro</span>
+              </div>
+              <div className="dietitian-card-content">
+                <h4>Le conseil diététique de Sarah</h4>
+                <p>&quot;{usageDetails.proTip}&quot;</p>
+              </div>
+            </div>
+
+            <div className="usage-precautions-card">
+              <div className="precautions-icon"><i className="fa-solid fa-triangle-exclamation"></i></div>
+              <div className="precautions-content">
+                <h5>Précautions d&apos;emploi</h5>
+                <p>Ne pas dépasser la dose journalière recommandée. Les compléments alimentaires doivent être utilisés dans le cadre d&apos;un mode de vie sain et ne pas remplacer un régime alimentaire varié et équilibré. Tenir hors de portée des enfants.</p>
+              </div>
+            </div>
+          </div>
+        );
+
+        const ingredientsContent = (
+          <div className="product-tab-content-inner">
+            <p>Tableau des valeurs nutritionnelles moyennes pour une portion journalière :</p>
+            <table className="nutrition-table">
+              <thead>
+                <tr>
+                  <th>Composant actif</th>
+                  <th>Quantité par portion</th>
+                </tr>
+              </thead>
+              <tbody>
+                {prod.ingredients && prod.ingredients.map((ing, idx) => (
+                  <tr key={idx}>
+                    <td>{ing.name}</td>
+                    <td>{ing.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+
+        const faqContent = (
+          <div className="product-tab-content-inner">
+            {prod.faq && prod.faq.length > 0 ? (
+              <div className="product-faq-accordion">
+                {prod.faq.map((f, idx) => (
+                  <div className={`product-faq-item ${expandedDetailFaq === idx ? 'active' : ''}`} key={idx}>
+                    <div className="product-faq-header" onClick={() => setExpandedDetailFaq(expandedDetailFaq === idx ? null : idx)}>
+                      <span>{f.q}</span>
+                      <span className="product-faq-icon"><i className="fa-solid fa-chevron-down"></i></span>
+                    </div>
+                    <div className="product-faq-content" style={{ maxHeight: expandedDetailFaq === idx ? '150px' : '0px' }}>
+                      <p>{f.a}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>Aucune question fréquente pour ce produit pour le moment.</p>
+            )}
+          </div>
+        );
+
+        const reviewsContent = (
+          <div className="product-tab-content-inner">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ fontWeight: 700, color: 'var(--dark)' }}>Sophie L.</span>
+                  <span style={{ color: '#F5A623' }}>★★★★★</span>
+                </div>
+                <p>&quot;Produit de très grande qualité. J&apos;ai vu la différence sur ma récupération en quelques jours. Je recommande !&quot;</p>
+              </div>
+              <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ fontWeight: 700, color: 'var(--dark)' }}>Marc A.</span>
+                  <span style={{ color: '#F5A623' }}>★★★★★</span>
+                </div>
+                <p>&quot;Excellent goût et miscibilité parfaite. Une des meilleures compositions du marché.&quot;</p>
+              </div>
+            </div>
+          </div>
+        );
+
         return (
           <main id="product-page-content" style={{ minHeight: '80vh', background: 'var(--bg-cream)', padding: '40px 0 60px 0' }}>
             <div className="container" id="product-detail-container">
@@ -2206,7 +2377,8 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="product-tabs-container">
+              {/* DESKTOP TABS LAYOUT */}
+              <div className="product-tabs-container desktop-only-tabs">
                 <div className="product-tabs-headers">
                   <span className={`product-tab-header ${detailActiveTab === 'desc' ? 'active' : ''}`} onClick={() => setDetailActiveTab('desc')}>Description</span>
                   <span className={`product-tab-header ${detailActiveTab === 'usage' ? 'active' : ''}`} onClick={() => setDetailActiveTab('usage')}>Conseils d&apos;utilisation</span>
@@ -2215,160 +2387,81 @@ export default function Home() {
                   <span className={`product-tab-header ${detailActiveTab === 'reviews' ? 'active' : ''}`} onClick={() => setDetailActiveTab('reviews')}>Avis Clients ({prod.reviewsCount})</span>
                 </div>
                 
-                {detailActiveTab === 'desc' && (
-                  <div className="product-tab-panel active">
-                    <p>{prod.description}</p>
-                    <p style={{ marginTop: '15px' }}>Nos compléments alimentaires sont rigoureusement sélectionnés pour leur biodisponibilité élevée et leur tolérance digestive optimale. Conçus en collaboration avec des professionnels de santé.</p>
-                  </div>
-                )}
-                
-                {detailActiveTab === 'usage' && (() => {
-                  const details = USAGE_DETAILS[prod.id] || {
-                    dosage: prod.usage,
-                    timing: "Au cours de la journée",
-                    preparation: "Prendre avec de l'eau",
-                    frequency: "1 fois par jour",
-                    proTip: "Respectez les doses quotidiennes recommandées.",
-                    schedule: { morning: true, midday: true, evening: true }
-                  };
-                  return (
-                    <div className="product-tab-panel active">
-                      {/* 1. TIMELINE OF DAY */}
-                      <div className="usage-timeline-section">
-                        <span className="usage-section-title">Moment idéal de prise :</span>
-                        <div className="usage-schedule-bar">
-                          <div className={`usage-schedule-pill ${details.schedule.morning ? 'active' : ''}`}>
-                            <i className="fa-regular fa-sun"></i> Matin
-                          </div>
-                          <div className={`usage-schedule-pill ${details.schedule.midday ? 'active' : ''}`}>
-                            <i className="fa-solid fa-sun"></i> Midi
-                          </div>
-                          <div className={`usage-schedule-pill ${details.schedule.evening ? 'active' : ''}`}>
-                            <i className="fa-regular fa-moon"></i> Soir
-                          </div>
-                        </div>
-                      </div>
+                <div className="product-tab-panels">
+                  {detailActiveTab === 'desc' && <div className="product-tab-panel active">{descContent}</div>}
+                  {detailActiveTab === 'usage' && <div className="product-tab-panel active">{usageContent}</div>}
+                  {detailActiveTab === 'ingredients' && <div className="product-tab-panel active">{ingredientsContent}</div>}
+                  {detailActiveTab === 'faq' && <div className="product-tab-panel active">{faqContent}</div>}
+                  {detailActiveTab === 'reviews' && <div className="product-tab-panel active">{reviewsContent}</div>}
+                </div>
+              </div>
 
-                      {/* 2. GRID OF INFOS */}
-                      <div className="usage-guidelines-grid">
-                        <div className="usage-guideline-card">
-                          <div className="usage-card-icon"><i className="fa-solid fa-scale-balanced"></i></div>
-                          <div className="usage-card-text">
-                            <span className="usage-card-label">Dosage</span>
-                            <span className="usage-card-value">{details.dosage}</span>
-                          </div>
-                        </div>
-                        <div className="usage-guideline-card">
-                          <div className="usage-card-icon"><i className="fa-solid fa-calendar-days"></i></div>
-                          <div className="usage-card-text">
-                            <span className="usage-card-label">Fréquence</span>
-                            <span className="usage-card-value">{details.frequency}</span>
-                          </div>
-                        </div>
-                        <div className="usage-guideline-card">
-                          <div className="usage-card-icon"><i className="fa-solid fa-clock"></i></div>
-                          <div className="usage-card-text">
-                            <span className="usage-card-label">Moment Clé</span>
-                            <span className="usage-card-value">{details.timing}</span>
-                          </div>
-                        </div>
-                        <div className="usage-guideline-card">
-                          <div className="usage-card-icon"><i className="fa-solid fa-glass-water"></i></div>
-                          <div className="usage-card-text">
-                            <span className="usage-card-label">Préparation</span>
-                            <span className="usage-card-value">{details.preparation}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* 3. DIETITIAN CARD */}
-                      <div className="usage-dietitian-card">
-                        <div className="dietitian-card-avatar">
-                          <img src="https://images.unsplash.com/photo-1594824813573-246434de83fb?fit=crop&w=150&h=150&q=80" alt="Sarah - Diététicienne" />
-                          <span className="dietitian-badge-online">Pro</span>
-                        </div>
-                        <div className="dietitian-card-content">
-                          <h4>Le conseil diététique de Sarah</h4>
-                          <p>&quot;{details.proTip}&quot;</p>
-                        </div>
-                      </div>
-
-                      {/* 4. PRECAUTIONS */}
-                      <div className="usage-precautions-card">
-                        <div className="precautions-icon"><i className="fa-solid fa-triangle-exclamation"></i></div>
-                        <div className="precautions-content">
-                          <h5>Précautions d&apos;emploi</h5>
-                          <p>Ne pas dépasser la dose journalière recommandée. Les compléments alimentaires doivent être utilisés dans le cadre d&apos;un mode de vie sain et ne pas remplacer un régime alimentaire varié et équilibré. Tenir hors de portée des enfants.</p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })()}
-                
-                {detailActiveTab === 'ingredients' && (
-                  <div className="product-tab-panel active">
-                    <p>Tableau des valeurs nutritionnelles moyennes pour une portion journalière :</p>
-                    <table className="nutrition-table">
-                      <thead>
-                        <tr>
-                          <th>Composant actif</th>
-                          <th>Quantité par portion</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {prod.ingredients && prod.ingredients.map((ing, idx) => (
-                          <tr key={idx}>
-                            <td>{ing.name}</td>
-                            <td>{ing.amount}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-                
-                {detailActiveTab === 'faq' && (
-                  <div className="product-tab-panel active">
-                    {prod.faq && prod.faq.length > 0 ? (
-                      <div className="product-faq-accordion">
-                        {prod.faq.map((f, idx) => (
-                          <div className={`product-faq-item ${expandedDetailFaq === idx ? 'active' : ''}`} key={idx}>
-                            <div className="product-faq-header" onClick={() => setExpandedDetailFaq(expandedDetailFaq === idx ? null : idx)}>
-                              <span>{f.q}</span>
-                              <span className="product-faq-icon"><i className="fa-solid fa-chevron-down"></i></span>
-                            </div>
-                            <div className="product-faq-content" style={{ maxHeight: expandedDetailFaq === idx ? '150px' : '0px' }}>
-                              <p>{f.a}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p>Aucune question fréquente pour ce produit pour le moment.</p>
-                    )}
-                  </div>
-                )}
-                
-                {detailActiveTab === 'reviews' && (
-                  <div className="product-tab-panel active">
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                      <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                          <span style={{ fontWeight: 700, color: 'var(--dark)' }}>Sophie L.</span>
-                          <span style={{ color: '#F5A623' }}>★★★★★</span>
-                        </div>
-                        <p>&quot;Produit de très grande qualité. J&apos;ai vu la différence sur ma récupération en quelques jours. Je recommande !&quot;</p>
-                      </div>
-                      <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                          <span style={{ fontWeight: 700, color: 'var(--dark)' }}>Marc A.</span>
-                          <span style={{ color: '#F5A623' }}>★★★★★</span>
-                        </div>
-                        <p>&quot;Excellent goût et miscibilité parfaite. Une des meilleures compositions du marché.&quot;</p>
-                      </div>
+              {/* MOBILE ACCORDION LAYOUT */}
+              <div className="product-tabs-accordion-container mobile-only-accordion">
+                {/* Accordion 1: Description */}
+                <div className={`product-accordion-item ${mobileActiveTabs.desc ? 'active' : ''}`}>
+                  <button className="product-accordion-header" onClick={() => toggleMobileTab('desc')}>
+                    <span>Description</span>
+                    <i className="fa-solid fa-chevron-down"></i>
+                  </button>
+                  <div className="product-accordion-collapse-wrapper" style={{ maxHeight: mobileActiveTabs.desc ? '1000px' : '0px' }}>
+                    <div className="product-accordion-body">
+                      {descContent}
                     </div>
                   </div>
-                )}
+                </div>
+
+                {/* Accordion 2: Conseils d'utilisation */}
+                <div className={`product-accordion-item ${mobileActiveTabs.usage ? 'active' : ''}`}>
+                  <button className="product-accordion-header" onClick={() => toggleMobileTab('usage')}>
+                    <span>Conseils d&apos;utilisation</span>
+                    <i className="fa-solid fa-chevron-down"></i>
+                  </button>
+                  <div className="product-accordion-collapse-wrapper" style={{ maxHeight: mobileActiveTabs.usage ? '1500px' : '0px' }}>
+                    <div className="product-accordion-body">
+                      {usageContent}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Accordion 3: Composition */}
+                <div className={`product-accordion-item ${mobileActiveTabs.ingredients ? 'active' : ''}`}>
+                  <button className="product-accordion-header" onClick={() => toggleMobileTab('ingredients')}>
+                    <span>Composition</span>
+                    <i className="fa-solid fa-chevron-down"></i>
+                  </button>
+                  <div className="product-accordion-collapse-wrapper" style={{ maxHeight: mobileActiveTabs.ingredients ? '1000px' : '0px' }}>
+                    <div className="product-accordion-body">
+                      {ingredientsContent}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Accordion 4: FAQ */}
+                <div className={`product-accordion-item ${mobileActiveTabs.faq ? 'active' : ''}`}>
+                  <button className="product-accordion-header" onClick={() => toggleMobileTab('faq')}>
+                    <span>FAQ Produit</span>
+                    <i className="fa-solid fa-chevron-down"></i>
+                  </button>
+                  <div className="product-accordion-collapse-wrapper" style={{ maxHeight: mobileActiveTabs.faq ? '1000px' : '0px' }}>
+                    <div className="product-accordion-body">
+                      {faqContent}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Accordion 5: Avis */}
+                <div className={`product-accordion-item ${mobileActiveTabs.reviews ? 'active' : ''}`}>
+                  <button className="product-accordion-header" onClick={() => toggleMobileTab('reviews')}>
+                    <span>Avis Clients ({prod.reviewsCount})</span>
+                    <i className="fa-solid fa-chevron-down"></i>
+                  </button>
+                  <div className="product-accordion-collapse-wrapper" style={{ maxHeight: mobileActiveTabs.reviews ? '1000px' : '0px' }}>
+                    <div className="product-accordion-body">
+                      {reviewsContent}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Related products */}
